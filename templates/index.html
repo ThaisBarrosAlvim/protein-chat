@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenAI-Bot</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+    <style>
+        body {
+            background-color: #1a1a1a; /* Fundo escuro */
+            color: #fff; /* Texto claro */
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0 auto;
+            align-items: flex-start;
+        }
+
+        .box {
+            width: min(95%, 800px);
+            height: 100vh;
+            margin-top: 85px;
+            background-color: #333; /* Fundo da caixa */
+            border-radius: 8px; /* Bordas arredondadas para um toque moderno */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.8); /* Sombra leve */
+        }
+
+        .bottom {
+            position: fixed;
+            bottom: 0;
+            padding-bottom: 0; /* Mantém o padding para o espaçamento */
+            background-color: #333; /* Fundo escuro para o container de input */
+            width: min(95%, 800px);
+            border-bottom: 10px solid #222; /* Adiciona uma borda inferior para preencher com a mesma cor */
+        }
+
+
+        .message {
+            margin: 20px;
+        }
+
+        .usermessagediv {
+            display: flex;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            margin-left: 20%;
+        }
+
+        .usermessage {
+            background-color: #097df1;
+            color: #fff;
+            padding: 0.5rem .875rem;
+            border-radius: 20px;
+        }
+
+        .appmessagediv {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            margin-right: 20%;
+        }
+
+        .appmessage {
+            background-color: #444; /* Fundo escuro para mensagens do bot */
+            color: #fff;
+            padding: 0.5rem .875rem;
+            border-radius: 20px;
+        }
+
+        .upper {
+            max-height: 100%;
+            padding-top: 40px;
+            padding-bottom: 170px;
+            overflow: auto;
+        }
+
+        .upper::-webkit-scrollbar {
+            width: 0 !important;
+        }
+
+        #sendbtn:disabled {
+            opacity: 0.6;
+        }
+
+        .downwarning {
+            display: flex;
+            justify-content: center;
+            margin-top: 5px;
+            font-size: 90%;
+            color: gray;
+        }
+
+        nav {
+            position: fixed;
+            width: 100%;
+            padding: 3px;
+            background-color: #222; /* Fundo escuro para o nav */
+            box-shadow: 1px 1px 5px #00000057;
+        }
+
+        .internal-nav {
+            width: min(95%, 800px); /* Define a mesma largura que o container */
+        }
+
+        #userinput {
+            background-color: #555; /* Fundo escuro para o campo de input */
+            color: #fff; /* Texto branco no campo de input */
+        }
+
+        #userinput::placeholder {
+            color: #bbb; /* Placeholder mais claro */
+        }
+
+        #sendbtn {
+            background-color: #097df1; /* Azul para o botão de envio */
+            color: white;
+        }
+
+        #sendbtn:hover {
+            background-color: #065ec2; /* Botão mais escuro no hover */
+        }
+        .bg-neutral-900 {
+            background-color: #222;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="bg-black border-gray-200">
+    <div class="internal-nav max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
+        <a href="#" class="flex items-center">
+            <img src="/static/protein-chat-logo.png" class="h-12 mr-3"
+                 alt="OpenAI Logo"/>
+            <span class="self-center text-2xl font-semibold whitespace-nowrap">Protein Chat</span>
+        </a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="box">
+        <div class="upper" id="upperid">
+            <span class="downwarning">Type your message in the box below.</span>
+        </div>
+
+        <div class="bottom">
+            <form id="userinputform">
+                <label for="chat" class="sr-only">Your message</label>
+                <div class="flex items-center px-3 py-2 rounded-t-lg bg-neutral-900">
+                    <textarea id="userinput" rows="1"
+                              class="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                              placeholder="Your message..." required></textarea>
+                    <button type="submit"
+                            class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer ml-4 hover:bg-blue-100"
+                            id="sendbtn">
+                        <svg aria-hidden="true" class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                    d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z">
+                            </path>
+                        </svg>
+                        <span class="sr-only">Send message</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    let timerInterval;
+
+    function scrollToBottom() {
+        var div = document.getElementById("upperid");
+        div.scrollTop = div.scrollHeight;
+    }
+
+    scrollToBottom();
+
+    document.getElementById("userinputform").addEventListener("submit", function (event) {
+        event.preventDefault();
+        formsubmitted();
+    });
+
+    // Detecta a tecla Enter
+    document.getElementById('userinput').addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();  // Evita a quebra de linha no textarea
+            document.getElementById('userinputform').dispatchEvent(new Event('submit'));
+        }
+    });
+
+    const formsubmitted = async () => {
+        let userinput = document.getElementById('userinput').value;
+        let sendbtn = document.getElementById('sendbtn');
+        let userinputarea = document.getElementById('userinput');
+        let upperdiv = document.getElementById('upperid');
+
+        upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message"><div class="usermessagediv"><div class="usermessage">${userinput}</div></div></div>`;
+        sendbtn.disabled = true;
+        userinputarea.disabled = true;
+        scrollToBottom();
+
+        // Inicia o contador
+        let timeElapsed = 0;
+        document.getElementById('userinput').value = "";
+        startTimer();
+
+        const response = await fetch('/message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ msg: userinput }) // Envia o input do usuário no corpo da requisição
+        });
+
+        let json = await response.json();
+
+        // Para o contador ao finalizar a requisição
+        stopTimer();
+        document.getElementById('userinput').placeholder = "Your message...";
+
+        if (json.response) {
+            let message = json.response;
+            upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message"><div class="appmessagediv"><div class="appmessage" id="temp"></div></div></div>`;
+            let temp = document.getElementById('temp');
+            let index = 0;
+
+            function displayNextLetter() {
+                scrollToBottom();
+                if (index < message.length) {
+                    temp.innerHTML = temp.innerHTML + message[index];
+                    index++;
+                    setTimeout(displayNextLetter, 30);
+                } else {
+                    temp.removeAttribute('id');
+                    sendbtn.disabled = false;
+                    userinputarea.disabled = false;
+                }
+            }
+
+            displayNextLetter();
+            scrollToBottom();
+        } else {
+            let message = json.message;
+            upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message"><div class="appmessagediv"><div class="appmessage" style="border: 1px solid red;">${message}</div></div></div>`;
+            sendbtn.disabled = false;
+            userinputarea.disabled = false;
+        }
+        scrollToBottom();
+    }
+
+    function startTimer() {
+        let seconds = 0;
+        timerInterval = setInterval(() => {
+            seconds++;
+            document.getElementById('userinput').placeholder = `Wait... (${seconds}s)`;
+        }, 1000);
+    }
+
+    function stopTimer() {
+        clearInterval(timerInterval);
+    }
+</script>
+
+
+</body>
+
+</html>
