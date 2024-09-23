@@ -156,3 +156,7 @@ cython_debug/
 
 # PyCharm
 .idea/
+
+# Project
+ollama/
+qdrant_data/
