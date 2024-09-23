@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GenAI-Bot</title>
+    <title>Protein Chat</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <style>
         body {
             background-color: #1a1a1a; /* Fundo escuro */
@@ -204,54 +205,71 @@
         let userinputarea = document.getElementById('userinput');
         let upperdiv = document.getElementById('upperid');
 
+        // Adiciona a mensagem do usuário ao chat
         upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message"><div class="usermessagediv"><div class="usermessage">${userinput}</div></div></div>`;
         sendbtn.disabled = true;
         userinputarea.disabled = true;
         scrollToBottom();
 
-        // Inicia o contador
-        let timeElapsed = 0;
+        // Inicia o contador e altera o placeholder para "Wait..."
         document.getElementById('userinput').value = "";
         startTimer();
 
-        const response = await fetch('/message', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ msg: userinput }) // Envia o input do usuário no corpo da requisição
-        });
+        try {
+            const response = await fetch('/message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ msg: userinput }) // Envia o input do usuário no corpo da requisição
+            });
 
-        let json = await response.json();
-
-        // Para o contador ao finalizar a requisição
-        stopTimer();
-        document.getElementById('userinput').placeholder = "Your message...";
-
-        if (json.response) {
-            let message = json.response;
-            upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message"><div class="appmessagediv"><div class="appmessage" id="temp"></div></div></div>`;
-            let temp = document.getElementById('temp');
-            let index = 0;
-
-            function displayNextLetter() {
-                scrollToBottom();
-                if (index < message.length) {
-                    temp.innerHTML = temp.innerHTML + message[index];
-                    index++;
-                    setTimeout(displayNextLetter, 30);
-                } else {
-                    temp.removeAttribute('id');
-                    sendbtn.disabled = false;
-                    userinputarea.disabled = false;
-                }
+            // Verifica se o status não é OK (200-299)
+            if (!response.ok) {
+                throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
             }
 
-            displayNextLetter();
-            scrollToBottom();
-        } else {
-            let message = json.message;
-            upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message"><div class="appmessagediv"><div class="appmessage" style="border: 1px solid red;">${message}</div></div></div>`;
+            let json = await response.json();
+
+            stopTimer(); // Para o timer ao finalizar a requisição
+
+            // Restaura o placeholder após o sucesso
+            document.getElementById('userinput').placeholder = "Your message...";
+
+            // Verifica se há uma resposta na chave `response`
+            if (json.response) {
+                let message = json.response;
+                upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message"><div class="appmessagediv"><div class="appmessage" id="temp"></div></div></div>`;
+                let temp = document.getElementById('temp');
+                let index = 0;
+
+                function displayNextLetter() {
+                    scrollToBottom();
+                    if (index < message.length) {
+                        temp.innerHTML = temp.innerHTML + message[index];
+                        index++;
+                        setTimeout(displayNextLetter, 30);
+                    } else {
+                        temp.removeAttribute('id');
+                        sendbtn.disabled = false;
+                        userinputarea.disabled = false;
+                    }
+                }
+
+                displayNextLetter();
+                scrollToBottom();
+            } else {
+                throw new Error(json.message || "Unknown error occurred.");
+            }
+
+        } catch (error) {
+            stopTimer(); // Para o timer ao ocorrer um erro
+
+            // Restaura o placeholder após erro
+            document.getElementById('userinput').placeholder = "Your message...";
+
+            // Exibe a mensagem de erro
+            upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message"><div class="appmessagediv"><div class="appmessage" style="border: 1px solid red;">${error.message}</div></div></div>`;
             sendbtn.disabled = false;
             userinputarea.disabled = false;
         }
