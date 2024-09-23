@@ -64,8 +64,3 @@ def setup_qa_chain():
         return_source_documents=True,
     )
     return qa
-
-def get_response_from_local_model(user_input):
-    qa = setup_qa_chain()
-    print(f'question: {user_input}')
-    return qa(user_input)["result"]
