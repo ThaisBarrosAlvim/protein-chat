@@ -107,7 +107,6 @@ Here are several planned improvements for future versions of the project:
     - Create a `docker-compose-cpu.yml` file to run without GPU support, enabling the project to function on platforms other than Linux, including macOS and Windows. This will broaden the availability of the project and make it accessible to more users.
 
 2. **Accessible Context for Users**:
-    - Provide users with the ability to see the context from which the model retrieves the information for its responses. This will increase transparency and give users more control over the information being presented.
 
    2.1 **Download PDFs from Context**:
     - Allow users to download the PDFs that the system used as context to formulate the answers. This will ensure users have direct access to the sources for further exploration.
