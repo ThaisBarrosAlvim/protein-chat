@@ -1,7 +1,10 @@
-# Protein Chatbot: Retrieval-based Q&A on Protein Data
+# Protein Chatbot: Retrieval-based Q&A on Magnesium-binding Protein Structures
 
-This project provides a chatbot that leverages AI models for answering questions related to protein data. The system uses **Qdrant** as a vector database and **Ollama** (running the Mistral model) to perform natural language processing on the data. The Q&A chatbot is built with **Flask** for the web interface and uses **Gunicorn** as the WSGI server. 
+This project provides a chatbot that leverages AI models for answering questions related to protein structures with magnesium-binding sites. It processes a dataset of **15,147 articles** from the **RCSB PDB**, each detailing a protein structure with magnesium sites. These articles are processed using a **SemanticChunker** and stored in **Qdrant**, a vector database optimized for similarity searches.
 
+The system uses **Ollama** (running the Mistral model) to perform natural language processing and generate human-like responses. The chatbot is built with **Flask** for the web interface and uses **Gunicorn** as the WSGI server, making it highly scalable and efficient.
+
+Essa versão agora explica o contexto dos artigos e como eles foram processados, proporcionando uma visão mais completa do propósito e funcionamento do projeto.
 ## Table of Contents
 1. [Overview](#overview)
 2. [Features](#features)
