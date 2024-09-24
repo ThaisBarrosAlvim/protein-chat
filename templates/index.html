@@ -10,35 +10,42 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
         body {
+            display: flex;
+            flex-direction: column;
             background-color: #1a1a1a; /* Fundo escuro */
             color: #fff; /* Texto claro */
         }
 
         .container {
+            flex: 1 0 auto;
             display: flex;
             justify-content: center;
-            min-height: 100vh;
             margin: 0 auto;
             align-items: flex-start;
         }
 
         .box {
+            display: flex;
+            flex-direction: column;
             width: min(95%, 800px);
-            height: 100vh;
             margin-top: 85px;
             background-color: #333; /* Fundo da caixa */
-            border-radius: 8px; /* Bordas arredondadas para um toque moderno */
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.8); /* Sombra leve */
+            border-radius: 8px; /* Bordas arredondadas */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.8); /* Sombra */
+            min-height: 600px;
         }
 
         .bottom {
-            position: fixed;
-            bottom: 0;
-            padding-bottom: 0; /* Mantém o padding para o espaçamento */
-            background-color: #333; /* Fundo escuro para o container de input */
-            width: min(95%, 800px);
-            border-bottom: 10px solid #222; /* Adiciona uma borda inferior para preencher com a mesma cor */
+            padding-bottom: 0;
+            background-color: #333;
+            width: 100%;
+            border-bottom: 10px solid #222;
         }
 
         .more-info{
@@ -84,10 +91,11 @@
         }
 
         .upper {
-            max-height: 100%;
+            flex: 1 1 auto;
             padding-top: 40px;
-            padding-bottom: 170px;
+            padding-bottom: 20px; /* Ajuste conforme necessário */
             overflow: auto;
+            min-height: 400px;
         }
 
         .upper::-webkit-scrollbar {
@@ -227,6 +235,43 @@
 
     </div>
 </div>
+
+<footer class="bg-neutral-900 text-white pt-6 pb-2 mt-8">
+    <div class="mx-auto text-center">
+        <p class="text-sm">
+            Developed by Thais Barros Alvim as part of the Computer Engineering Final Project.
+        </p>
+        <div class="flex items-center flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-8 mt-4">
+            <!-- Email section with PNG icon -->
+            <a href="mailto:thaisbarrosalvim@gmail.com" class="flex items-center text-blue-500 hover:underline">
+                <!-- Email icon (PNG from /static/) -->
+                <img src="/static/gmail-logo.png" alt="Email" class="h-4 w-4 mr-2">
+                <span>Email: thaisbarrosalvim@gmail.com</span>
+            </a>
+
+            <!-- LinkedIn section with PNG icon -->
+            <a href="https://linkedin.com/in/thais-barros-alvim" target="_blank" rel="noopener noreferrer" class="flex items-center text-blue-500 hover:underline">
+                <!-- LinkedIn icon (PNG from /static/) -->
+                <img src="/static/linkedin-icon.svg" alt="LinkedIn" class="h-5 w-5 mr-2">
+                <span>LinkedIn: ThaisBarrosAlvim</span>
+            </a>
+        </div>
+
+        <!-- GitHub call to action -->
+        <div class="flex justify-center mt-6 mb-2">
+            <a href="https://github.com/ThaisBarrosAlvim/protein-chat" target="_blank" rel="noopener noreferrer" class="flex items-center text-blue-500 hover:underline">
+                <img src="/static/github-icon.svg" alt="GitHub" class="h-6 w-6 mr-2">
+                <span>Check out the implementation on GitHub</span>
+            </a>
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+
 
 
 <script>
