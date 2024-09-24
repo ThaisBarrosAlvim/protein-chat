@@ -4,7 +4,6 @@ This project provides a chatbot that leverages AI models for answering questions
 
 The system uses **Ollama** (running the Mistral model) to perform natural language processing and generate human-like responses. The chatbot is built with **Flask** for the web interface and uses **Gunicorn** as the WSGI server, making it highly scalable and efficient.
 
-Essa versão agora explica o contexto dos artigos e como eles foram processados, proporcionando uma visão mais completa do propósito e funcionamento do projeto.
 ## Table of Contents
 1. [Overview](#overview)
 2. [Features](#features)
