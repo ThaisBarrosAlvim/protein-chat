@@ -8,7 +8,7 @@ This project provides a chatbot that leverages AI models for answering questions
 3. [Requirements](#requirements)
 4. [Setup](#setup)
 5. [Usage](#usage)
-5. [Future Improvements](#future-improvements)
+6. [Future Improvements](#future-improvements)
 7. [Contributing](#contributing)
 8. [License](#license)
 
