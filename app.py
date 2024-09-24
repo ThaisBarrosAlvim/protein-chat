@@ -16,17 +16,27 @@ def get_bot_response():
         user_message = request.json['msg']
 
         # Obtém a resposta do modelo
-        response = qa_chain(user_message)["result"]
+        response = qa_chain(user_message)
 
-        return jsonify({'response': response})
-
+        return jsonify({
+            'result': response["result"],
+            'context': [
+                {
+                    'id': i,
+                    'file': doc.metadata["file_path"].split("/")[-1],
+                    'page': doc.metadata["page"],
+                    'title': doc.metadata.get("Title", "").strip(),
+                    'doi': doc.metadata.get("doi", ""),
+                    'content': doc.page_content
+                } for i, doc in enumerate(response['source_documents'])
+            ]
+        })
     except Exception as e:
-        print('error: ', e,'\n\n', traceback.format_exc())
         error_message = str(e)
         error_trace = traceback.format_exc()
 
         return jsonify({
-            'error': 'Ocorreu um erro ao processar a solicitação.',
+            'error': 'An error occurred while processing the request.',
             'message': error_message,
             'trace': error_trace
         }), 500

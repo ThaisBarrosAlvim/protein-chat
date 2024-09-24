@@ -43,6 +43,12 @@
 
         .more-info{
             color: #097df1;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .more-info:hover {
+            text-decoration: underline;
         }
 
         .message {
@@ -147,6 +153,50 @@
     </div>
 </nav>
 
+<div id="context-modal" tabindex="-1" class="hidden fixed z-50 w-full p-8 overflow-y-auto inset-0 h-full max-h-full"
+     onclick="closeModal()">
+    <div class="relative w-full max-h-full" onclick="event.stopPropagation()">
+        <!-- Conteúdo do modal -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Cabeçalho do modal -->
+            <div class="flex justify-between items-start p-4 border-b rounded-t dark:border-gray-600">
+                <h3 id="modal-title" class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Context information
+                </h3>
+                <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        onclick="closeModal()">
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <!-- Corpo do modal -->
+            <div class="p-6 space-y-6">
+                <div class="overflow-x-auto bg-white dark:bg-gray-700">
+                    <table class="table-auto w-full text-left text-sm text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">File</th>
+                            <th scope="col" class="px-6 py-3">Page</th>
+                            <th scope="col" class="px-6 py-3">Title</th>
+                            <th scope="col" class="px-6 py-3">DOI</th>
+                            <th scope="col" class="px-6 py-3">Content</th>
+                        </tr>
+                        </thead>
+                        <tbody id="modal-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="box">
         <div class="upper" id="upperid">
@@ -181,6 +231,7 @@
 
 <script>
     let timerInterval;
+    let responseContext = [];
 
     function scrollToBottom() {
         var div = document.getElementById("upperid");
@@ -241,8 +292,9 @@
             document.getElementById('userinput').placeholder = "Your message...";
 
             // Verifica se há uma resposta na chave `response`
-            if (json.response) {
-                let message = json.response;
+            if (json.result) {
+                let message = json.result;
+                responseContext = json.context; // Armazena o contexto globalmente
                 upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message"><div class="appmessagediv"><div class="appmessage" id="temp"></div></div></div>`;
                 let temp = document.getElementById('temp');
                 let index = 0;
@@ -254,6 +306,7 @@
                         index++;
                         setTimeout(displayNextLetter, 30);
                     } else {
+                        temp.innerHTML += `<br><a href="#" class="more-info" onclick="showModal()">See Context</a>`;
                         temp.removeAttribute('id');
                         sendbtn.disabled = false;
                         userinputarea.disabled = false;
@@ -277,7 +330,7 @@
             try {
                 errorDetails = JSON.parse(error.message);  // Tenta fazer o parse do JSON de erro
             } catch (parseError) {
-                errorDetails.message = "Erro desconhecido.";
+                errorDetails.message = "Unknown error.";
                 errorDetails.trace = "";
             }
 
@@ -286,9 +339,9 @@
             <div class="message">
                 <div class="appmessagediv">
                     <div class="appmessage" style="border: 1px solid red;">
-                        <strong>Erro:</strong> ${errorDetails.message || "Erro desconhecido."} <br>
-                        <span  id="more-info" style="display:none;">${errorDetails.trace || "Nenhum trace disponível."}</span>
-                        <a class="more-info" href="#" onclick="toggleTrace(event)">Ler mais</a>
+                        <strong>Error:</strong> ${errorDetails.message || "Unknown error"} <br>
+                        <span  id="more-info" style="display:none;">${errorDetails.trace || "No traceback available."}</span>
+                        <a class="more-info" href="#" onclick="toggleTrace(event)">Read More</a>
                     </div>
                 </div>
             </div>`;
@@ -297,6 +350,36 @@
         }
         scrollToBottom();
     }
+
+    function closeModal() {
+        document.getElementById('context-modal').classList.add('hidden');
+    }
+
+    function showModal() {
+        // Limpa o corpo do modal antes de adicionar novos dados
+        const modalBody = document.getElementById('modal-body');
+        modalBody.innerHTML = ''; // Limpa as linhas anteriores, se houver
+
+        // Itera sobre o contexto e cria uma linha de tabela para cada documento
+        responseContext.forEach(contextData => {
+            const row = document.createElement('tr'); // Cria uma nova linha
+            row.classList.add('bg-white', 'dark:bg-gray-800'); // Adiciona classes para fundo no modo claro e escuro
+
+            row.innerHTML = `
+                            <td class="px-6 py-4">${contextData.file}</td>
+                            <td class="px-6 py-4">${contextData.page}</td>
+                            <td class="px-6 py-4">${contextData.title}</td>
+                            <td class="px-6 py-4">${contextData.doi}</td>
+                            <td class="px-6 py-4">${contextData.content}</td>
+                            `;
+
+            modalBody.appendChild(row); // Adiciona a nova linha ao tbody
+        });
+
+        // Exibe o modal
+        document.getElementById('context-modal').classList.remove('hidden');
+    }
+
 
     // Função para alternar a visibilidade do trace
     function toggleTrace(event) {
