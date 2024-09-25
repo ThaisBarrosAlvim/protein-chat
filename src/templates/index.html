@@ -153,18 +153,21 @@
         .github-fork-ribbon:before {
             background-color: #333;
         }
+        #context-modal{
+            z-index: 99999;
+        }
     </style>
 </head>
 
 <body>
-<a class="github-fork-ribbon" href="https://github.com/ThaisBarrosAlvim/protein-chat" data-ribbon="Fork me on GitHub"
-   title="Fork me on GitHub">Fork me on GitHub</a>
 
 <nav class="bg-black border-gray-200">
+    <a class="github-fork-ribbon" href="https://github.com/ThaisBarrosAlvim/protein-chat" data-ribbon="Fork me on GitHub"
+       title="Fork me on GitHub">Fork me on GitHub</a>
     <div class="internal-nav max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
         <a href="#" class="flex items-center">
             <img src="/static/protein-chat-logo.png" class="h-12 mr-3"
-                 alt="OpenAI Logo"/>
+                 alt="Protein Chat Logo"/>
             <span class="self-center text-2xl font-semibold whitespace-nowrap">Protein Chat</span>
         </a>
     </div>
@@ -215,6 +218,7 @@
 </div>
 
 <div class="container">
+
     <div class="box">
         <div class="upper" id="upperid">
             <span class="downwarning">Type your message in the box below.</span>
