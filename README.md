@@ -38,8 +38,6 @@ This application uses **Langchain**, **Qdrant**, and **Ollama** models to answer
 
 - **Docker**: For containerizing and running services.
 - **NVIDIA GPU**: Requires Docker to be configured with NVIDIA GPU support.
-- **Python 3.8+**
-- **Langchain**, **Flask**, **Gunicorn**, **Qdrant**
 
 ## Setup
 
