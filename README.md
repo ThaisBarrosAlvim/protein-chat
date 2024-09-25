@@ -51,7 +51,7 @@ Follow the [official NVIDIA installation guide](https://docs.nvidia.com/datacent
 
 ```bash
 git clone https://github.com/ThaisBarrosAlvim/protein-chat.git
-cd protein-chatbot
+cd protein-chat
 ```
 
 ### 3. Build and Run the Docker Containers
