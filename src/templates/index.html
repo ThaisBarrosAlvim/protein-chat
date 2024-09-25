@@ -9,6 +9,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css"/>
+
     <style>
         html, body {
             height: 100%;
@@ -48,7 +51,7 @@
             border-bottom: 10px solid #222;
         }
 
-        .more-info{
+        .more-info {
             color: #097df1;
             text-decoration: none;
             font-weight: bold;
@@ -146,10 +149,16 @@
         .bg-neutral-900 {
             background-color: #222;
         }
+
+        .github-fork-ribbon:before {
+            background-color: #333;
+        }
     </style>
 </head>
 
 <body>
+<a class="github-fork-ribbon" href="https://github.com/ThaisBarrosAlvim/protein-chat" data-ribbon="Fork me on GitHub"
+   title="Fork me on GitHub">Fork me on GitHub</a>
 
 <nav class="bg-black border-gray-200">
     <div class="internal-nav max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
@@ -250,7 +259,8 @@
             </a>
 
             <!-- LinkedIn section with PNG icon -->
-            <a href="https://linkedin.com/in/thais-barros-alvim" target="_blank" rel="noopener noreferrer" class="flex items-center text-blue-500 hover:underline">
+            <a href="https://linkedin.com/in/thais-barros-alvim" target="_blank" rel="noopener noreferrer"
+               class="flex items-center text-blue-500 hover:underline">
                 <!-- LinkedIn icon (PNG from /static/) -->
                 <img src="/static/linkedin-icon.svg" alt="LinkedIn" class="h-5 w-5 mr-2">
                 <span>LinkedIn: ThaisBarrosAlvim</span>
@@ -259,19 +269,14 @@
 
         <!-- GitHub call to action -->
         <div class="flex justify-center mt-6 mb-2">
-            <a href="https://github.com/ThaisBarrosAlvim/protein-chat" target="_blank" rel="noopener noreferrer" class="flex items-center text-blue-500 hover:underline">
+            <a href="https://github.com/ThaisBarrosAlvim/protein-chat" target="_blank" rel="noopener noreferrer"
+               class="flex items-center text-blue-500 hover:underline">
                 <img src="/static/github-icon.svg" alt="GitHub" class="h-6 w-6 mr-2">
                 <span>Check out the implementation on GitHub</span>
             </a>
         </div>
     </div>
 </footer>
-
-
-
-
-
-
 
 
 <script>
@@ -320,7 +325,7 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ msg: userinput }) // Envia o input do usuário no corpo da requisição
+                body: JSON.stringify({msg: userinput}) // Envia o input do usuário no corpo da requisição
             });
 
             // Tenta processar a resposta JSON, mesmo em caso de erro
