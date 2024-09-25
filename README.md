@@ -62,7 +62,7 @@ Use Docker Compose to set up the Qdrant, Ollama and Flask services:
 docker compose up --build
 ```
 
-This command will build and start the Qdrant and Ollama services. Make sure Docker is configured to use the NVIDIA GPU.
+This command will build and start the Qdrant, Ollama and Flask services.
 
 ### 4. Load the Protein Data Snapshot into Qdrant
 
