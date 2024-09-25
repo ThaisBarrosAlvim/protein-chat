@@ -8,165 +8,21 @@
     <title>Protein Chat</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
-    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css"/>
-
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-            background-color: #1a1a1a; /* Fundo escuro */
-            color: #fff; /* Texto claro */
-        }
-
-        .container {
-            flex: 1 0 auto;
-            display: flex;
-            justify-content: center;
-            margin: 0 auto;
-            align-items: flex-start;
-        }
-
-        .box {
-            display: flex;
-            flex-direction: column;
-            width: min(95%, 800px);
-            margin-top: 85px;
-            background-color: #333; /* Fundo da caixa */
-            border-radius: 8px; /* Bordas arredondadas */
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.8); /* Sombra */
-            min-height: 600px;
-        }
-
-        .bottom {
-            padding-bottom: 0;
-            background-color: #333;
-            width: 100%;
-            border-bottom: 10px solid #222;
-        }
-
-        .more-info {
-            color: #097df1;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .more-info:hover {
-            text-decoration: underline;
-        }
-
-        .message {
-            margin: 20px;
-        }
-
-        .usermessagediv {
-            display: flex;
-            justify-content: flex-end;
-            flex-wrap: wrap;
-            margin-left: 20%;
-        }
-
-        .usermessage {
-            background-color: #097df1;
-            color: #fff;
-            padding: 0.5rem .875rem;
-            border-radius: 20px;
-        }
-
-        .appmessagediv {
-            display: flex;
-            justify-content: flex-start;
-            flex-wrap: wrap;
-            margin-right: 20%;
-        }
-
-        .appmessage {
-            background-color: #444; /* Fundo escuro para mensagens do bot */
-            color: #fff;
-            padding: 0.5rem .875rem;
-            border-radius: 20px;
-        }
-
-        .upper {
-            flex: 1 1 auto;
-            padding-top: 40px;
-            padding-bottom: 20px; /* Ajuste conforme necessário */
-            overflow: auto;
-            min-height: 400px;
-        }
-
-        .upper::-webkit-scrollbar {
-            width: 0 !important;
-        }
-
-        #sendbtn:disabled {
-            opacity: 0.6;
-        }
-
-        .downwarning {
-            display: flex;
-            justify-content: center;
-            margin-top: 5px;
-            font-size: 90%;
-            color: gray;
-        }
-
-        nav {
-            position: fixed;
-            width: 100%;
-            padding: 3px;
-            background-color: #222; /* Fundo escuro para o nav */
-            box-shadow: 1px 1px 5px #00000057;
-        }
-
-        .internal-nav {
-            width: min(95%, 800px); /* Define a mesma largura que o container */
-        }
-
-        #userinput {
-            background-color: #555; /* Fundo escuro para o campo de input */
-            color: #fff; /* Texto branco no campo de input */
-        }
-
-        #userinput::placeholder {
-            color: #bbb; /* Placeholder mais claro */
-        }
-
-        #sendbtn {
-            background-color: #097df1; /* Azul para o botão de envio */
-            color: white;
-        }
-
-        #sendbtn:hover {
-            background-color: #065ec2; /* Botão mais escuro no hover */
-        }
-        .bg-neutral-900 {
-            background-color: #222;
-        }
-
-        .github-fork-ribbon:before {
-            background-color: #333;
-        }
-        #context-modal{
-            z-index: 99999;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
 
 <nav class="bg-black border-gray-200">
-    <a class="github-fork-ribbon" href="https://github.com/ThaisBarrosAlvim/protein-chat" data-ribbon="Fork me on GitHub"
+    <a class="github-fork-ribbon" href="https://github.com/ThaisBarrosAlvim/protein-chat"
+       data-ribbon="Fork me on GitHub"
        title="Fork me on GitHub">Fork me on GitHub</a>
     <div class="internal-nav max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
         <a href="#" class="flex items-center">
-            <img src="/static/protein-chat-logo.png" class="h-12 mr-3"
+            <img src="/static/images/protein-chat-logo.png" class="h-12 mr-3"
                  alt="Protein Chat Logo"/>
             <span class="self-center text-2xl font-semibold whitespace-nowrap">Protein Chat</span>
         </a>
@@ -226,7 +82,7 @@
 
         <div class="bottom">
             <form id="userinputform">
-                <label for="chat" class="sr-only">Your message</label>
+                <label for="userinput" class="sr-only">Your message</label>
                 <div class="flex items-center px-3 py-2 rounded-t-lg bg-neutral-900">
                     <textarea id="userinput" rows="1"
                               class="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
@@ -258,7 +114,7 @@
             <!-- Email section with PNG icon -->
             <a href="mailto:thaisbarrosalvim@gmail.com" class="flex items-center text-blue-500 hover:underline">
                 <!-- Email icon (PNG from /static/) -->
-                <img src="/static/gmail-logo.png" alt="Email" class="h-4 w-4 mr-2">
+                <img src="/static/images/gmail-logo.png" alt="Email" class="h-4 w-4 mr-2">
                 <span>Email: thaisbarrosalvim@gmail.com</span>
             </a>
 
@@ -266,7 +122,7 @@
             <a href="https://linkedin.com/in/thais-barros-alvim" target="_blank" rel="noopener noreferrer"
                class="flex items-center text-blue-500 hover:underline">
                 <!-- LinkedIn icon (PNG from /static/) -->
-                <img src="/static/linkedin-icon.svg" alt="LinkedIn" class="h-5 w-5 mr-2">
+                <img src="/static/images/linkedin-icon.svg" alt="LinkedIn" class="h-5 w-5 mr-2">
                 <span>LinkedIn: ThaisBarrosAlvim</span>
             </a>
         </div>
@@ -275,193 +131,14 @@
         <div class="flex justify-center mt-6 mb-2">
             <a href="https://github.com/ThaisBarrosAlvim/protein-chat" target="_blank" rel="noopener noreferrer"
                class="flex items-center text-blue-500 hover:underline">
-                <img src="/static/github-icon.svg" alt="GitHub" class="h-6 w-6 mr-2">
+                <img src="/static/images/github-icon.svg" alt="GitHub" class="h-6 w-6 mr-2">
                 <span>Check out the implementation on GitHub</span>
             </a>
         </div>
     </div>
 </footer>
 
-
-<script>
-    let timerInterval;
-    let responseContext = [];
-
-    function scrollToBottom() {
-        var div = document.getElementById("upperid");
-        div.scrollTop = div.scrollHeight;
-    }
-
-    scrollToBottom();
-
-    document.getElementById("userinputform").addEventListener("submit", function (event) {
-        event.preventDefault();
-        formsubmitted();
-    });
-
-    // Detecta a tecla Enter
-    document.getElementById('userinput').addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();  // Evita a quebra de linha no textarea
-            document.getElementById('userinputform').dispatchEvent(new Event('submit'));
-        }
-    });
-
-    const formsubmitted = async () => {
-        let userinput = document.getElementById('userinput').value;
-        let sendbtn = document.getElementById('sendbtn');
-        let userinputarea = document.getElementById('userinput');
-        let upperdiv = document.getElementById('upperid');
-
-        // Adiciona a mensagem do usuário ao chat
-        upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message"><div class="usermessagediv"><div class="usermessage">${userinput}</div></div></div>`;
-        sendbtn.disabled = true;
-        userinputarea.disabled = true;
-        scrollToBottom();
-
-        // Inicia o contador e altera o placeholder para "Wait..."
-        document.getElementById('userinput').value = "";
-        startTimer();
-
-        try {
-            const response = await fetch('/message', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({msg: userinput}) // Envia o input do usuário no corpo da requisição
-            });
-
-            // Tenta processar a resposta JSON, mesmo em caso de erro
-            let json = await response.json();
-
-            // Se o status não estiver no intervalo 200-299, levanta um erro com os detalhes da resposta
-            if (!response.ok) {
-                throw new Error(JSON.stringify(json));  // Passa o JSON completo do erro para a exceção
-            }
-
-            stopTimer(); // Para o timer ao finalizar a requisição
-
-            // Restaura o placeholder após o sucesso
-            document.getElementById('userinput').placeholder = "Your message...";
-
-            // Verifica se há uma resposta na chave `response`
-            if (json.result) {
-                let message = json.result;
-                responseContext = json.context; // Armazena o contexto globalmente
-                upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message"><div class="appmessagediv"><div class="appmessage" id="temp"></div></div></div>`;
-                let temp = document.getElementById('temp');
-                let index = 0;
-
-                function displayNextLetter() {
-                    scrollToBottom();
-                    if (index < message.length) {
-                        temp.innerHTML = temp.innerHTML + message[index];
-                        index++;
-                        setTimeout(displayNextLetter, 30);
-                    } else {
-                        temp.innerHTML += `<br><a href="#" class="more-info" onclick="showModal()">See Context</a>`;
-                        temp.removeAttribute('id');
-                        sendbtn.disabled = false;
-                        userinputarea.disabled = false;
-                    }
-                }
-
-                displayNextLetter();
-                scrollToBottom();
-            } else {
-                throw new Error(json.message || "Unknown error occurred.");
-            }
-
-        } catch (error) {
-            stopTimer(); // Para o timer ao ocorrer um erro
-
-            // Restaura o placeholder após erro
-            document.getElementById('userinput').placeholder = "Your message...";
-
-            // Tenta processar a mensagem de erro e o trace (caso tenha sido retornado pelo backend)
-            let errorDetails = {};
-            try {
-                errorDetails = JSON.parse(error.message);  // Tenta fazer o parse do JSON de erro
-            } catch (parseError) {
-                errorDetails.message = "Unknown error.";
-                errorDetails.trace = "";
-            }
-
-            // Exibe a mensagem de erro e um link para ver mais detalhes
-            upperdiv.innerHTML = upperdiv.innerHTML + `
-            <div class="message">
-                <div class="appmessagediv">
-                    <div class="appmessage" style="border: 1px solid red;">
-                        <strong>Error:</strong> ${errorDetails.message || "Unknown error"} <br>
-                        <span  id="more-info" style="display:none;">${errorDetails.trace || "No traceback available."}</span>
-                        <a class="more-info" href="#" onclick="toggleTrace(event)">Read More</a>
-                    </div>
-                </div>
-            </div>`;
-            sendbtn.disabled = false;
-            userinputarea.disabled = false;
-        }
-        scrollToBottom();
-    }
-
-    function closeModal() {
-        document.getElementById('context-modal').classList.add('hidden');
-    }
-
-    function showModal() {
-        // Limpa o corpo do modal antes de adicionar novos dados
-        const modalBody = document.getElementById('modal-body');
-        modalBody.innerHTML = ''; // Limpa as linhas anteriores, se houver
-
-        // Itera sobre o contexto e cria uma linha de tabela para cada documento
-        responseContext.forEach(contextData => {
-            const row = document.createElement('tr'); // Cria uma nova linha
-            row.classList.add('bg-white', 'dark:bg-gray-800'); // Adiciona classes para fundo no modo claro e escuro
-
-            row.innerHTML = `
-                            <td class="px-6 py-4">${contextData.file}</td>
-                            <td class="px-6 py-4">${contextData.page}</td>
-                            <td class="px-6 py-4">${contextData.title}</td>
-                            <td class="px-6 py-4">${contextData.doi}</td>
-                            <td class="px-6 py-4">${contextData.content}</td>
-                            `;
-
-            modalBody.appendChild(row); // Adiciona a nova linha ao tbody
-        });
-
-        // Exibe o modal
-        document.getElementById('context-modal').classList.remove('hidden');
-    }
-
-
-    // Função para alternar a visibilidade do trace
-    function toggleTrace(event) {
-        event.preventDefault(); // Previne o comportamento padrão do link
-        let moreInfo = event.target.previousElementSibling; // Seleciona o elemento <span> com o trace
-        if (moreInfo.style.display === "none") {
-            moreInfo.style.display = "block"; // Mostra o trace
-            event.target.innerText = "Ler menos"; // Muda o texto do link
-        } else {
-            moreInfo.style.display = "none"; // Esconde o trace
-            event.target.innerText = "Ler mais"; // Volta o texto do link
-        }
-    }
-
-    function startTimer() {
-        let seconds = 0;
-        timerInterval = setInterval(() => {
-            seconds++;
-            document.getElementById('userinput').placeholder = `Wait... (${seconds}s)`;
-        }, 1000);
-    }
-
-    function stopTimer() {
-        clearInterval(timerInterval);
-    }
-</script>
-
-
+<script src="/static/js/home.js" defer></script>
 </body>
 
 </html>

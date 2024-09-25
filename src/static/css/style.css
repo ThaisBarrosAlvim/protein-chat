@@ -1,0 +1,143 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: #1a1a1a; /* Fundo escuro */
+    color: #fff; /* Texto claro */
+}
+
+.container {
+    flex: 1 0 auto;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    width: min(95%, 800px);
+    margin-top: 85px;
+    background-color: #333; /* Fundo da caixa */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.8); /* Sombra */
+    min-height: 600px;
+}
+
+.bottom {
+    padding-bottom: 0;
+    background-color: #333;
+    width: 100%;
+    border-bottom: 10px solid #222;
+}
+
+.more-info {
+    color: #097df1;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.more-info:hover {
+    text-decoration: underline;
+}
+
+.message {
+    margin: 20px;
+}
+
+.usermessagediv {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    margin-left: 20%;
+}
+
+.usermessage {
+    background-color: #097df1;
+    color: #fff;
+    padding: 0.5rem .875rem;
+    border-radius: 20px;
+}
+
+.appmessagediv {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-right: 20%;
+}
+
+.appmessage {
+    background-color: #444; /* Fundo escuro para mensagens do bot */
+    color: #fff;
+    padding: 0.5rem .875rem;
+    border-radius: 20px;
+}
+
+.upper {
+    flex: 1 1 auto;
+    padding-top: 40px;
+    padding-bottom: 20px; /* Ajuste conforme necessário */
+    overflow: auto;
+    min-height: 400px;
+}
+
+.upper::-webkit-scrollbar {
+    width: 0 !important;
+}
+
+#sendbtn:disabled {
+    opacity: 0.6;
+}
+
+.downwarning {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    font-size: 90%;
+    color: gray;
+}
+
+nav {
+    position: fixed;
+    width: 100%;
+    padding: 3px;
+    background-color: #222; /* Fundo escuro para o nav */
+    box-shadow: 1px 1px 5px #00000057;
+}
+
+.internal-nav {
+    width: min(95%, 800px); /* Define a mesma largura que o container */
+}
+
+#userinput {
+    background-color: #555; /* Fundo escuro para o campo de input */
+    color: #fff; /* Texto branco no campo de input */
+}
+
+#userinput::placeholder {
+    color: #bbb; /* Placeholder mais claro */
+}
+
+#sendbtn {
+    background-color: #097df1; /* Azul para o botão de envio */
+    color: white;
+}
+
+#sendbtn:hover {
+    background-color: #065ec2; /* Botão mais escuro no hover */
+}
+.bg-neutral-900 {
+    background-color: #222;
+}
+
+.github-fork-ribbon:before {
+    background-color: #333;
+}
+#context-modal{
+    z-index: 99999;
+}
