@@ -1,6 +1,6 @@
 # Protein Chatbot: Retrieval-based Q&A on Magnesium-binding Protein Structures
 
-[![](https://raw.githubusercontent.com/ThaisBarrosAlvim/protein-chat/main/src/static/protein-chat-webpage.png)](https://github.com/ThaisBarrosAlvim/protein-chat)
+[![](https://raw.githubusercontent.com/ThaisBarrosAlvim/protein-chat/main/src/static/images/protein-chat-webpage.png)](https://github.com/ThaisBarrosAlvim/protein-chat)
 
 * [Live Demo](http://protein-chat.space)
 * [Ollama AI Model (Mistral)](https://ollama.ai)
