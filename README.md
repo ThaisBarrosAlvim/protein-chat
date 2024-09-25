@@ -35,7 +35,7 @@ This application uses **Langchain**, **Qdrant**, and **Ollama** models to answer
 - **Qdrant Dashboard**: View and manage the vector store via a dashboard.
 
 ## Requirements
-
+- **Linux OS**: This project requires a Linux-based system to ensure compatibility with NVIDIA GPU support and other dependencies.
 - **Docker**: For containerizing and running services.
 - **NVIDIA GPU**: Requires Docker to be configured with NVIDIA GPU support.
 
