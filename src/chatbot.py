@@ -1,3 +1,4 @@
+from jinja2.utils import urlize
 from langchain_qdrant import QdrantVectorStore
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.llms import Ollama
@@ -11,7 +12,7 @@ def load_retriever():
     qdrant = QdrantVectorStore.from_existing_collection(
         embedding=embeddings,
         collection_name="protein_data",
-        url="http://localhost:6333",
+        host='qdrant', port=6333
     )
     retriever = qdrant.as_retriever(search_type="similarity", search_kwargs={"k": 20})
     return retriever
@@ -29,7 +30,7 @@ def setup_qa_chain():
             After the answer, always say the source and page.
             Helpful Answer:
     """
-    llm = Ollama(model="mistral")
+    llm = Ollama(model="mistral", base_url='http://ollama:11434')
     retriever = load_retriever()
 
     QA_CHAIN_PROMPT = PromptTemplate.from_template(prompt)

@@ -49,10 +49,10 @@ cd protein-chatbot
 
 ### 3. Build and Run the Docker Containers
 
-Use Docker Compose to set up the Qdrant and Ollama services:
+Use Docker Compose to set up the Qdrant, Ollama and Flask services:
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 This command will build and start the Qdrant and Ollama services. Make sure Docker is configured to use the NVIDIA GPU.
@@ -64,30 +64,6 @@ Once Qdrant is running, load the pre-built snapshot data:
 1. Open the Qdrant Dashboard in your browser: http://localhost:6333/dashboard
 2. Upload the snapshot from [this link](https://drive.google.com/file/d/1hIyoOOxhoHKSah_76MdKLhAvTPhxfhQy/view?usp=sharing).
 
-### 5. Set Up the Python Virtual Environment
-
-Create a virtual environment to manage dependencies:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-Install the required Python dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-### 6. Run the Flask Application with Gunicorn
-
-Start the Flask web app using Gunicorn:
-
-```bash
-gunicorn -c gunicorn_config.py app:app
-```
-
-This will launch the Flask application with Gunicorn, making it accessible for HTTP requests.
 
 ## Usage
 

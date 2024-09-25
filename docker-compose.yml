@@ -17,11 +17,13 @@ services:
         target: /qdrant/config/production.yaml
     volumes:
       - ./qdrant_data:/qdrant/storage
+    networks:
+      - net
 
   ollama:
     build:
       context: .
-      dockerfile: ./docker/Dockerfile
+      dockerfile: ./docker/ollama/Dockerfile
     image: ollama_custom
     container_name: ollama
     ports:
@@ -31,6 +33,20 @@ services:
     pull_policy: always
     tty: true
     restart: always
+    networks:
+      - net
+
+  flask:
+    build:
+      context: .
+      dockerfile: ./docker/flask/Dockerfile
+    container_name: flask_app
+    restart: always
+    ports:
+      - 5000:5000
+    depends_on:
+      - qdrant
+      - ollama
     networks:
       - net
 

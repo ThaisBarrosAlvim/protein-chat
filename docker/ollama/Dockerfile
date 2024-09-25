@@ -1,7 +1,7 @@
 FROM ollama/ollama
 
 # Copia o script shell para o container
-COPY ./docker/run_ollama.sh /tmp/run_ollama.sh
+COPY ./docker/ollama/run_ollama.sh /tmp/run_ollama.sh
 
 # Define o diretório de trabalho
 WORKDIR /tmp
