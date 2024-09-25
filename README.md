@@ -1,5 +1,14 @@
 # Protein Chatbot: Retrieval-based Q&A on Magnesium-binding Protein Structures
 
+[![](https://raw.githubusercontent.com/ThaisBarrosAlvim/protein-chat/main/src/static/protein-chat-webpage.png)](https://github.com/ThaisBarrosAlvim/protein-chat)
+
+* [Live Demo](http://protein-chat.space)
+* [Ollama AI Model (Mistral)](https://ollama.ai)
+-----------------
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![codebeat badge](https://codebeat.co/badges/22def691-1b91-4fa4-86fa-8791769512ee)](https://codebeat.co/projects/github-com-thaisbarrosalvim-protein-chat-main)
+
 This project provides a chatbot that leverages AI models for answering questions related to protein structures with magnesium-binding sites. It processes a dataset of **15,147 articles** from the **RCSB PDB**, each detailing a protein structure with magnesium sites. These articles are processed using a **SemanticChunker** and stored in **Qdrant**, a vector database optimized for similarity searches.
 
 The system uses **Ollama** (running the Mistral model) to perform natural language processing and generate human-like responses. The chatbot is built with **Flask** for the web interface and uses **Gunicorn** as the WSGI server, making it highly scalable and efficient.
