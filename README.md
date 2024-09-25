@@ -9,9 +9,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![codebeat badge](https://codebeat.co/badges/22def691-1b91-4fa4-86fa-8791769512ee)](https://codebeat.co/projects/github-com-thaisbarrosalvim-protein-chat-main)
 
-This project provides a chatbot that leverages AI models for answering questions related to protein structures with magnesium-binding sites. It processes a dataset of **15,147 articles** from the **RCSB PDB**, each detailing a protein structure with magnesium sites. These articles are processed using a **SemanticChunker** and stored in **Qdrant**, a vector database optimized for similarity searches.
+This project provides a chatbot that leverages AI models for answering questions related to protein structures with magnesium-binding sites. It processes a dataset of **15,147 articles** from the **[RCSB PDB](https://www.rcsb.org/)**, each detailing a protein structure with magnesium sites. These articles are processed using a **[SemanticChunker](https://api.python.langchain.com/en/latest/text_splitter/langchain_experimental.text_splitter.SemanticChunker.html)** from the Langchain library and stored in **[Qdrant](https://qdrant.tech)**, a vector database optimized for similarity searches.
 
-The system uses **Ollama** (running the Mistral model) to perform natural language processing and generate human-like responses. The chatbot is built with **Flask** for the web interface and uses **Gunicorn** as the WSGI server, making it highly scalable and efficient.
+The system uses **[Ollama](https://ollama.com/)** (running the **[Mistral model](https://ollama.com/library/mistral)**) to perform natural language processing and generate human-like responses. The chatbot is built with **[Flask](https://github.com/pallets/flask)** for the web interface and uses **[Gunicorn](https://github.com/benoitc/gunicorn)** as the WSGI server, making it highly scalable and efficient.
 
 ## Table of Contents
 1. [Overview](#overview)
