@@ -9,17 +9,3 @@ services:
     restart: always
     ports:
       - 5000:5000
-    depends_on:
-      - qdrant
-      - ollama
-    networks:
-      - net
-
-configs:
-  qdrant_config:
-    content: |
-      log_level: INFO
-
-networks:
-  net:
-    driver: bridge

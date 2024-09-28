@@ -1,6 +1,20 @@
 version: '3.8'
 
 services:
+  flask_api:
+    build:
+      context: .
+      dockerfile: ./docker/flask/Dockerfile
+    container_name: flask_api
+    restart: always
+    ports:
+      - 5000:5000
+    depends_on:
+      - qdrant
+      - ollama
+    networks:
+      - net
+
   qdrant:
     image: qdrant/qdrant:latest
     restart: always
