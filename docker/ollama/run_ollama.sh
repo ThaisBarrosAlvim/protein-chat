@@ -9,4 +9,4 @@ while [ "$(ollama list | grep 'NAME')" == "" ]; do
 done
 
 echo "Running ollama mistral..."
-ollama run mistral
+ollama run llama3

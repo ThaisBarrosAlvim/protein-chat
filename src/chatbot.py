@@ -14,7 +14,7 @@ def load_retriever():
         collection_name="protein_data",
         host='qdrant', port=6333
     )
-    retriever = qdrant.as_retriever(search_type="similarity", search_kwargs={"k": 20})
+    retriever = qdrant.as_retriever(search_type="similarity", search_kwargs={"k": 50})
     return retriever
 
 def setup_qa_chain():
@@ -30,7 +30,7 @@ def setup_qa_chain():
             After the answer, always say the source and page.
             Helpful Answer:
     """
-    llm = Ollama(model="mistral", base_url='http://ollama:11434')
+    llm = Ollama(model="llama3", base_url='http://ollama:11434')
     retriever = load_retriever()
 
     QA_CHAIN_PROMPT = PromptTemplate.from_template(prompt)

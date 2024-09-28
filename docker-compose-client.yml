@@ -35,20 +35,16 @@ services:
     restart: always
     networks:
       - net
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
 
-  flask:
-    build:
-      context: .
-      dockerfile: ./docker/flask/Dockerfile
-    container_name: flask_app
-    restart: always
-    ports:
-      - 5000:5000
-    depends_on:
-      - qdrant
-      - ollama
-    networks:
-      - net
 
 configs:
   qdrant_config:
