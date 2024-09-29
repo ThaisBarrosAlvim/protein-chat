@@ -4,7 +4,7 @@ services:
   flask_api:
     build:
       context: .
-      dockerfile: ./docker/flask/Dockerfile
+      dockerfile: docker/flask-client/Dockerfile
     container_name: flask_api
     restart: always
     ports:

@@ -5,13 +5,13 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # Copia os arquivos de requisitos para o container
-COPY ./src/requirements.txt requirements.txt
+COPY ./src-server/requirements.txt requirements.txt
 
 # Instala as dependências
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia o restante dos arquivos da aplicação para o container
-COPY ./src .
+COPY ./src-server .
 
 # Expõe a porta 8000 para o Gunicorn
 EXPOSE 5000
