@@ -2,7 +2,7 @@ FROM ollama/ollama
 
 # Copia o script shell para o container
 COPY ./docker/ollama/run_ollama.sh /tmp/run_ollama.sh
-COPY ./docker/ollama/protein_articles-0.1.gguf /tmp/protein_articles-0.1.gguf
+#COPY ./docker/ollama/protein_articles-0.1.gguf /tmp/protein_articles-0.1.gguf
 
 # Define o diretório de trabalho
 WORKDIR /tmp
