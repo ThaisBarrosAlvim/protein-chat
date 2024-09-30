@@ -5,9 +5,6 @@ import chatbot  # Aqui você importa o arquivo que manipula o modelo local
 app = Flask(__name__)
 
 qa_chain = chatbot.setup_qa_chain()
-@app.route("/")
-def home():
-    return render_template("index.html")
 
 @app.route("/message", methods=["POST"])
 def get_bot_response():
