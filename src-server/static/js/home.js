@@ -76,7 +76,7 @@ const formsubmitted = async () => {
                     setTimeout(displayNextLetter, 3);
                 } else {
                     // Adiciona um link para ver o contexto da resposta específica
-                    temp.innerHTML += `<br><a href="#" class="more-info" onclick="showModal(${currentMessageId})">See Context for Response #${currentMessageId}</a>`;
+                    temp.innerHTML += `<br><a href="#" class="more-info" onclick="showModal(${currentMessageId})">See Context</a>`;
                     temp.removeAttribute('id');
                     sendbtn.disabled = false;
                     userinputarea.disabled = false;
@@ -157,10 +157,10 @@ function toggleTrace(event) {
     let moreInfo = event.target.previousElementSibling; // Seleciona o elemento <span> com o trace
     if (moreInfo.style.display === "none") {
         moreInfo.style.display = "block"; // Mostra o trace
-        event.target.innerText = "Ler menos"; // Muda o texto do link
+        event.target.innerText = "Read less"; // Muda o texto do link
     } else {
         moreInfo.style.display = "none"; // Esconde o trace
-        event.target.innerText = "Ler mais"; // Volta o texto do link
+        event.target.innerText = "Read less"; // Volta o texto do link
     }
 }
 
