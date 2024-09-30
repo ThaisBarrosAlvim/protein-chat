@@ -45,8 +45,8 @@ def setup_qa_chain():
 
     # Define how individual documents are formatted
     document_prompt = PromptTemplate(
-        input_variables=["page_content", "source", "page"],
-        template="Context:\ncontent:{page_content}\nsource:{source}\npage:{page}",
+        input_variables=["page_content", "title", "page"],
+        template="Context:\ncontent:{page_content}\nsource:{title}\npage:{page}",
     )
 
     # Combine documents into a single context for the LLM chain

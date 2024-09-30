@@ -134,7 +134,7 @@ function showModal() {
         row.classList.add('bg-white', 'dark:bg-gray-800'); // Adiciona classes para fundo no modo claro e escuro
 
         row.innerHTML = `
-                            <td class="px-6 py-4">${contextData.file}</td>
+                            <td class="px-6 py-4">${contextData.proteins_structures}</td>
                             <td class="px-6 py-4">${contextData.page}</td>
                             <td class="px-6 py-4">${contextData.title}</td>
                             <td class="px-6 py-4">${contextData.doi}</td>
