@@ -28,7 +28,7 @@ def get_bot_response():
             # Retorna a resposta da API
             return jsonify(response.json())
         else:
-            return jsonify({'error': 'Falha na comunicação com a API.'}), 500
+            return jsonify(response.json()), 500
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500

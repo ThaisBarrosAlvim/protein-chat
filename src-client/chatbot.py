@@ -11,10 +11,10 @@ def load_retriever():
     embeddings = HuggingFaceEmbeddings()
     qdrant = QdrantVectorStore.from_existing_collection(
         embedding=embeddings,
-        collection_name="protein_data",
+        collection_name="protein_articles",
         host='qdrant', port=6333
     )
-    retriever = qdrant.as_retriever(search_type="similarity", search_kwargs={"k": 50})
+    retriever = qdrant.as_retriever(search_type="similarity", search_kwargs={"k": 20})
     return retriever
 
 def setup_qa_chain():
