@@ -50,22 +50,6 @@ services:
     networks:
       - net
 
-  nginx:
-    image: nginx:latest
-    container_name: nginx_proxy
-    restart: always
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/ssl:/etc/letsencrypt
-      - ./nginx/logs:/var/log/nginx
-    depends_on:
-      - flask
-    networks:
-      - net
-
 configs:
   qdrant_config:
     content: |
