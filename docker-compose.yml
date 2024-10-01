@@ -24,7 +24,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/ollama/Dockerfile
-    image: ollama_custom
+    image: ollama/ollama
     container_name: ollama
     ports:
       - 11434:11434
