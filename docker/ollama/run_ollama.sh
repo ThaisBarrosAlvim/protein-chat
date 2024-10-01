@@ -8,5 +8,5 @@ while [ "$(ollama list | grep 'NAME')" == "" ]; do
   sleep 1
 done
 
-echo "Running ollama mistral..."
-ollama run mistral
+echo "Running ollama llama3..."
+ollama run llama3
