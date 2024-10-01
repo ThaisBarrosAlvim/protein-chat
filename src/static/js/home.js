@@ -1,5 +1,6 @@
 let timerInterval;
-let responseContext = [];
+let messageContexts = [];
+let messageId = 1;
 
 function scrollToBottom() {
     var div = document.getElementById("upperid");
@@ -62,9 +63,11 @@ const formsubmitted = async () => {
         // Verifica se há uma resposta na chave `response`
         if (json.result) {
             let message = json.result;
-            responseContext = json.context; // Armazena o contexto globalmente
-            upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message"><div class="appmessagediv"><div class="appmessage" id="temp"></div></div></div>`;
-            let temp = document.getElementById('temp');
+            let currentMessageId = messageId; // Atribui o número atual da resposta
+            messageContexts.push(json.context); // Armazena o contexto da resposta
+
+            upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message"><div class="appmessagediv"><div class="appmessage" id="temp-${currentMessageId}"></div></div></div>`;
+            let temp = document.getElementById(`temp-${currentMessageId}`);
             let index = 0;
 
             function displayNextLetter() {
@@ -72,9 +75,10 @@ const formsubmitted = async () => {
                 if (index < message.length) {
                     temp.innerHTML = temp.innerHTML + message[index];
                     index++;
-                    setTimeout(displayNextLetter, 30);
+                    setTimeout(displayNextLetter, 3);
                 } else {
-                    temp.innerHTML += `<br><a href="#" class="more-info" onclick="showModal()">See Context</a>`;
+                    // Adiciona um link para ver o contexto da resposta específica
+                    temp.innerHTML += `<br><a href="#" class="more-info" onclick="showModal(${currentMessageId})">See Context</a>`;
                     temp.removeAttribute('id');
                     sendbtn.disabled = false;
                     userinputarea.disabled = false;
@@ -83,6 +87,8 @@ const formsubmitted = async () => {
 
             displayNextLetter();
             scrollToBottom();
+
+            messageId++; // Incrementa o contador para a próxima mensagem
         } else {
             throw new Error(json.message || "Unknown error occurred.");
         }
@@ -108,7 +114,7 @@ const formsubmitted = async () => {
                 <div class="appmessagediv">
                     <div class="appmessage" style="border: 1px solid red;">
                         <strong>Error:</strong> ${errorDetails.message || "Unknown error"} <br>
-                        <span  id="more-info" style="display:none;">${errorDetails.trace || "No traceback available."}</span>
+                        <span id="more-info" style="display:none;">${errorDetails.trace || "No traceback available."}</span>
                         <a class="more-info" href="#" onclick="toggleTrace(event)">Read More</a>
                     </div>
                 </div>
@@ -123,29 +129,31 @@ function closeModal() {
     document.getElementById('context-modal').classList.add('hidden');
 }
 
-function showModal() {
-    // Limpa o corpo do modal antes de adicionar novos dados
+function showModal(contextId) {
     const modalBody = document.getElementById('modal-body');
-    modalBody.innerHTML = ''; // Limpa as linhas anteriores, se houver
+    modalBody.innerHTML = ''; // Limpa o conteúdo anterior do modal
 
-    // Itera sobre o contexto e cria uma linha de tabela para cada documento
-    responseContext.forEach(contextData => {
-        const row = document.createElement('tr'); // Cria uma nova linha
-        row.classList.add('bg-white', 'dark:bg-gray-800'); // Adiciona classes para fundo no modo claro e escuro
+    // Verifica se há contexto para o ID fornecido
+    if (messageContexts[contextId - 1]) { // Como os índices no array começam em 0
+        messageContexts[contextId - 1].forEach(contextData => {
+            const row = document.createElement('tr');
+            row.classList.add('bg-white', 'dark:bg-gray-800');
 
-        row.innerHTML = `
-                            <td class="px-6 py-4">${contextData.file}</td>
-                            <td class="px-6 py-4">${contextData.page}</td>
-                            <td class="px-6 py-4">${contextData.title}</td>
-                            <td class="px-6 py-4">${contextData.doi}</td>
-                            <td class="px-6 py-4">${contextData.content}</td>
-                            `;
+            row.innerHTML = `
+                <td class="px-6 py-4">${contextData.proteins_structures}</td>
+                <td class="px-6 py-4">${contextData.page}</td>
+                <td class="px-6 py-4">${contextData.title}</td>
+                <td class="px-6 py-4">${contextData.doi}</td>
+                <td class="px-6 py-4">${contextData.content}</td>
+            `;
 
-        modalBody.appendChild(row); // Adiciona a nova linha ao tbody
-    });
+            modalBody.appendChild(row);
+        });
 
-    // Exibe o modal
-    document.getElementById('context-modal').classList.remove('hidden');
+        document.getElementById('context-modal').classList.remove('hidden');
+    } else {
+        console.error("No context found for this message.");
+    }
 }
 
 
@@ -155,10 +163,10 @@ function toggleTrace(event) {
     let moreInfo = event.target.previousElementSibling; // Seleciona o elemento <span> com o trace
     if (moreInfo.style.display === "none") {
         moreInfo.style.display = "block"; // Mostra o trace
-        event.target.innerText = "Ler menos"; // Muda o texto do link
+        event.target.innerText = "Read less"; // Muda o texto do link
     } else {
         moreInfo.style.display = "none"; // Esconde o trace
-        event.target.innerText = "Ler mais"; // Volta o texto do link
+        event.target.innerText = "Read less"; // Volta o texto do link
     }
 }
 

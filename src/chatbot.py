@@ -11,7 +11,7 @@ def load_retriever():
     embeddings = HuggingFaceEmbeddings()
     qdrant = QdrantVectorStore.from_existing_collection(
         embedding=embeddings,
-        collection_name="protein_data",
+        collection_name="protein_articles",
         host='qdrant', port=6333
     )
     retriever = qdrant.as_retriever(search_type="similarity", search_kwargs={"k": 20})
@@ -30,7 +30,7 @@ def setup_qa_chain():
             After the answer, always say the source and page.
             Helpful Answer:
     """
-    llm = Ollama(model="mistral", base_url='http://ollama:11434')
+    llm = Ollama(model="llama3", base_url='http://ollama:11434')
     retriever = load_retriever()
 
     QA_CHAIN_PROMPT = PromptTemplate.from_template(prompt)
@@ -45,8 +45,8 @@ def setup_qa_chain():
 
     # Define how individual documents are formatted
     document_prompt = PromptTemplate(
-        input_variables=["page_content", "source", "page"],
-        template="Context:\ncontent:{page_content}\nsource:{source}\npage:{page}",
+        input_variables=["page_content", "title", "page"],
+        template="Context:\ncontent:{page_content}\nsource:{title}\npage:{page}",
     )
 
     # Combine documents into a single context for the LLM chain

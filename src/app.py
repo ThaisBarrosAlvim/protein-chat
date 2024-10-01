@@ -23,9 +23,9 @@ def get_bot_response():
             'context': [
                 {
                     'id': i,
-                    'file': doc.metadata["file_path"].split("/")[-1],
+                    'proteins_structures': ", ".join(doc.metadata["proteins_structures"]),
                     'page': doc.metadata["page"],
-                    'title': doc.metadata.get("Title", "").strip(),
+                    'title': doc.metadata.get("title", "").strip(),
                     'doi': doc.metadata.get("doi", ""),
                     'content': doc.page_content
                 } for i, doc in enumerate(response['source_documents'])
