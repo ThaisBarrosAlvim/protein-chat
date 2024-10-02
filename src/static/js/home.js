@@ -37,7 +37,7 @@ const formsubmitted = async () => {
     // Inicia o contador e altera o placeholder para "Wait..."
     document.getElementById('userinput').value = "";
     startTimer();
-
+    const startTime = new Date(); // Captura o tempo de início
     try {
         const response = await fetch('/message', {
             method: 'POST',
@@ -56,6 +56,9 @@ const formsubmitted = async () => {
         }
 
         stopTimer(); // Para o timer ao finalizar a requisição
+
+        const endTime = new Date(); // Captura o tempo de fim
+        const timeTaken = ((endTime - startTime) / 1000).toFixed(2); // Calcula o tempo em segundos
 
         // Restaura o placeholder após o sucesso
         document.getElementById('userinput').placeholder = "Your message...";
@@ -78,7 +81,7 @@ const formsubmitted = async () => {
                     setTimeout(displayNextLetter, 3);
                 } else {
                     // Adiciona um link para ver o contexto da resposta específica
-                    temp.innerHTML += `<br><a href="#" class="more-info" onclick="showModal(${currentMessageId})">See Context</a>`;
+                    temp.innerHTML += `<br><a href="#" class="more-info" onclick="showModal(${currentMessageId})">See Context</a> <span class="time-taken">(${timeTaken}s)</span>`;
                     temp.removeAttribute('id');
                     sendbtn.disabled = false;
                     userinputarea.disabled = false;
