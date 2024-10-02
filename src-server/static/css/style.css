@@ -22,7 +22,6 @@ body {
     display: flex;
     flex-direction: column;
     width: min(95%, 800px);
-    margin-top: 85px;
     background-color: #333; /* Fundo da caixa */
     border-radius: 8px; /* Bordas arredondadas */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.8); /* Sombra */
