@@ -35,6 +35,8 @@ services:
     restart: always
     networks:
       - net
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
 
   flask:
     build:
