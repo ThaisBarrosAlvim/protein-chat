@@ -1,3 +1,4 @@
+import logging
 import traceback
 from flask import Flask, render_template, request, jsonify
 import chatbot  # Aqui você importa o arquivo que manipula o modelo local
@@ -32,6 +33,7 @@ def get_bot_response():
             ]
         })
     except Exception as e:
+        logging.error(f'Error in API message: {e}', exc_info=True)
         error_message = str(e)
         error_trace = traceback.format_exc()
 

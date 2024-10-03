@@ -1,20 +1,20 @@
-from jinja2.utils import urlize
-from langchain_qdrant import QdrantVectorStore
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_community.llms import Ollama
-from langchain.chains import RetrievalQA
-from langchain.prompts import PromptTemplate
-from langchain.chains.llm import LLMChain
+import weaviate
 from langchain.chains.combine_documents.stuff import StuffDocumentsChain
+from langchain.chains.llm import LLMChain
+from langchain.chains.retrieval_qa.base import RetrievalQA
+from langchain.prompts import PromptTemplate
+from langchain_community.llms import Ollama
+from langchain_ollama import OllamaEmbeddings
+from langchain_weaviate.vectorstores import WeaviateVectorStore
+
 
 def load_retriever():
-    embeddings = HuggingFaceEmbeddings()
-    qdrant = QdrantVectorStore.from_existing_collection(
-        embedding=embeddings,
-        collection_name="protein_articles",
-        host='qdrant', port=6333
-    )
-    retriever = qdrant.as_retriever(search_type="similarity", search_kwargs={"k": 20})
+    # TODO client creation must happen when question arrive
+    weaviate_client = weaviate.connect_to_local(host='weaviate')
+    db = WeaviateVectorStore(client=weaviate_client, index_name='ProteinCollection',
+                             embedding=OllamaEmbeddings(model="mxbai-embed-large", base_url='http://ollama:11434'),
+                             text_key='body')
+    retriever = db.as_retriever(search_kwargs={'k': 20, 'alpha': 0.5})
     return retriever
 
 def setup_qa_chain():
@@ -33,12 +33,11 @@ def setup_qa_chain():
     llm = Ollama(model="llama3", base_url='http://ollama:11434')
     retriever = load_retriever()
 
-    QA_CHAIN_PROMPT = PromptTemplate.from_template(prompt)
+    qa_chain_prompt = PromptTemplate.from_template(prompt)
 
-    # Create an LLM chain with the prompt template
     llm_chain = LLMChain(
         llm=llm,
-        prompt=QA_CHAIN_PROMPT,
+        prompt=qa_chain_prompt,
         callbacks=None,
         verbose=True
     )
