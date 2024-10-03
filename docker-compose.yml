@@ -26,6 +26,8 @@ services:
       ENABLE_MODULES: 'text2vec-ollama,generative-ollama,backup-filesystem'
 #      ENABLE_MODULES: 'text2vec-ollama,qna-transformers,ner-transformers,sum-transformers,text-spellcheck,generative-ollama,backup-filesystem'
       BACKUP_FILESYSTEM_PATH: '/backups/'
+      # TODO remove clustername
+      CLUSTER_HOSTNAME: 'bf28fd500657'
 #  qna-transformers:
 #    image: cr.weaviate.io/semitechnologies/qna-transformers:distilbert-base-uncased-distilled-squad
 #    environment:
