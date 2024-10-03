@@ -30,7 +30,7 @@ def setup_qa_chain():
             After the answer, always say the source and page.
             Helpful Answer:
     """
-    llm = Ollama(model="llama3", base_url='http://ollama:11434')
+    llm = Ollama(model="qwen:4b", base_url='http://ollama:11434')
     retriever = load_retriever()
 
     qa_chain_prompt = PromptTemplate.from_template(prompt)
