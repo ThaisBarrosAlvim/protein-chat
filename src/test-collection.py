@@ -12,5 +12,6 @@ try:
         count += 1
         if count > 3:
             break
+    print('\n\nFINISH FINISH FINISH FINISH FINISH FINISH FINISH FINISH ')
 finally:
     weaviate_client.close()
