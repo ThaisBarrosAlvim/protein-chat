@@ -85,8 +85,8 @@ def benchmark_model(model_name, ollama_base_url, weaviate_host, num_docs):
 if __name__ == '__main__':
     # Parâmetros de exemplo para a chamada
     model_name = "qwen:4b"  # Nome do modelo que você deseja usar no Ollama
-    ollama_base_url = "http://localhost:11434"  # URL base onde o serviço Ollama está rodando
-    weaviate_host = "localhost:8080"  # Host onde o Weaviate está rodando
+    ollama_base_url = "http://ollama:11434"  # URL base onde o serviço Ollama está rodando
+    weaviate_host = "weaviate"  # Host onde o Weaviate está rodando
     num_docs = 1  # Número de documentos a serem recuperados pelo retriever
 
     # Chamada da função
