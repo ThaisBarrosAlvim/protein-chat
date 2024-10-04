@@ -29,7 +29,7 @@ def benchmark_model(model_name, ollama_base_url, weaviate_host, num_docs):
 
     # Configurando o LLM e o cliente Weaviate
     llm = Ollama(model=model_name, base_url=ollama_base_url)
-    weaviate_client = weaviate.Client(weaviate_host)
+    weaviate_client = weaviate.connect_to_local(host=weaviate_host)
     db = WeaviateVectorStore(client=weaviate_client, index_name='ProteinCollection',
                              embedding=OllamaEmbeddings(model="mxbai-embed-large", base_url=ollama_base_url),
                              text_key='body')
