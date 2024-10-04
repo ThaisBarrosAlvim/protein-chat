@@ -71,7 +71,7 @@ def benchmark_model(model_name, ollama_base_url, weaviate_host, num_docs):
 
     # Executando a consulta e benchmark
     question = "What is the role of magnesium in protein binding?"
-    response = qa.run(question)
+    response = qa(question)
 
     # Capturando o tempo de fim
     end_time = time.time()
