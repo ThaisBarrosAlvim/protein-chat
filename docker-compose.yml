@@ -13,57 +13,16 @@ services:
       - 50051:50051
     volumes:
       - weaviate_data:/var/lib/weaviate
-    restart: on-failure:0
+    restart: on-failure
     environment:
-#      QNA_INFERENCE_API: 'http://qna-transformers:8080'
-#      NER_INFERENCE_API: 'http://ner-transformers:8080'
-#      SUM_INFERENCE_API: 'http://sum-transformers:8080'
-#      SPELLCHECK_INFERENCE_API: 'http://text-spellcheck:8080'
       QUERY_DEFAULTS_LIMIT: 25
       AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
       PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
       DEFAULT_VECTORIZER_MODULE: 'text2vec-ollama'
       ENABLE_MODULES: 'text2vec-ollama,generative-ollama,backup-filesystem'
-#      ENABLE_MODULES: 'text2vec-ollama,qna-transformers,ner-transformers,sum-transformers,text-spellcheck,generative-ollama,backup-filesystem'
       BACKUP_FILESYSTEM_PATH: '/backups/'
       # TODO remove clustername
       CLUSTER_HOSTNAME: 'bf28fd500657'
-#  qna-transformers:
-#    image: cr.weaviate.io/semitechnologies/qna-transformers:distilbert-base-uncased-distilled-squad
-#    environment:
-#      ENABLE_CUDA: '1'
-#      NVIDIA_VISIBLE_DEVICES: 'all'
-#    deploy:
-#      resources:
-#        reservations:
-#          devices:
-#            - capabilities:
-#                - 'gpu'
-#  ner-transformers:
-#    image: cr.weaviate.io/semitechnologies/ner-transformers:dbmdz-bert-large-cased-finetuned-conll03-english
-#    environment:
-#      ENABLE_CUDA: '1'
-#      NVIDIA_VISIBLE_DEVICES: 'all'
-#    deploy:
-#      resources:
-#        reservations:
-#          devices:
-#            - capabilities:
-#                - 'gpu'
-#  sum-transformers:
-#    image: cr.weaviate.io/semitechnologies/sum-transformers:facebook-bart-large-cnn-1.0.0
-#    environment:
-#      ENABLE_CUDA: '1'
-#      NVIDIA_VISIBLE_DEVICES: 'all'
-#    deploy:
-#      resources:
-#        reservations:
-#          devices:
-#            - capabilities:
-#                - 'gpu'
-#  text-spellcheck:
-#    image: cr.weaviate.io/semitechnologies/text-spellcheck-model:pyspellchecker-en
-
   ollama:
     build:
       context: .
@@ -79,13 +38,13 @@ services:
     restart: always
     environment:
       - OLLAMA_KEEP_ALIVE=24h
-#    deploy:
-#      resources:
-#        reservations:
-#          devices:
-#            - driver: nvidia
-#              count: 1
-#              capabilities: [ gpu ]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
   flask:
     build:
       context: .
