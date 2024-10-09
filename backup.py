@@ -4,9 +4,9 @@ client = weaviate.connect_to_local()
 
 try:
     result = client.backup.create(
-        backup_id="protein-articles4",
+        backup_id="protein-articles-semantic",
         backend="filesystem",
-        include_collections=["ProteinCollection",],
+        include_collections=["ProteinCollectionSemantic",],
         wait_for_completion=True,
     )
 

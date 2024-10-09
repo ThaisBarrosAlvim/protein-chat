@@ -5,33 +5,68 @@ import chatbot  # Aqui você importa o arquivo que manipula o modelo local
 
 app = Flask(__name__)
 
-qa_chain = chatbot.setup_qa_chain()
+db_size_divided, db_semantic_divided, db_semantic_divided2k = chatbot.load_databases()
+
+
 @app.route("/")
 def home():
     return render_template("index.html")
 
+
 @app.route("/message", methods=["POST"])
 def get_bot_response():
     try:
-        # Obtém a mensagem do usuário
+        # get vars
         user_message = request.json['msg']
+        config = request.json['config']
 
-        # Obtém a resposta do modelo
-        response = qa_chain(user_message)
+        # Database config
+        db = config.get('db', 'size-divided')
+        if db == 'size-divided':
+            database = db_size_divided
+        elif db == 'semantic-divided':
+            database = db_semantic_divided
+        else: # semantic-divided2k
+            database = db_semantic_divided2k
 
-        return jsonify({
-            'result': response["result"],
-            'context': [
-                {
-                    'id': i,
-                    'proteins_structures': ", ".join(doc.metadata["proteins_structures"]),
-                    'page': doc.metadata["page"],
-                    'title': doc.metadata.get("title", "").strip(),
-                    'doi': doc.metadata.get("doi", ""),
-                    'content': doc.page_content
-                } for i, doc in enumerate(response['source_documents'])
-            ]
-        })
+        # Search type config
+        search_type = config.get('searchType', 'hybrid')
+        if search_type == 'hybrid':  # keyword search and vector search
+            alpha = 0.5
+        elif search_type == 'vector-similarity':  # vector search
+            alpha = 1
+        else:  # keyword search
+            alpha = 0
+
+        qtd_docs = config.get('docsQtd', 20)
+        model_name = config.get('model', chatbot.VALID_MODELS[0])
+        used_config = {
+            'db': db,
+            'model': model_name,
+            'docsQtd': qtd_docs,
+            'searchType': search_type,
+            # 'history': qtd_docs, # TODO implement
+        }
+        qa_chain = chatbot.setup_retrieval_chain(database, qtd_docs=qtd_docs, alpha=alpha,
+                                                 model_name=model_name)
+
+        # Retrieve Augmented Generation occurs here:
+        response = qa_chain.invoke({"input": user_message})
+
+        # Format response
+        context = []
+        for i, doc in enumerate(response['context']):
+            context.append({
+                'id': i,
+                'proteins_structures': ", ".join(doc.metadata["proteins_structures"]),
+                'page': doc.metadata["page"],
+                'title': doc.metadata.get("title", "").strip(),
+                'doi': doc.metadata.get("doi", ""),
+                'content': doc.page_content
+            })
+
+        return jsonify({'result': response["answer"], 'context': context, 'used_config': used_config})
+
     except Exception as e:
         logging.error(f'Error in API message: {e}', exc_info=True)
         error_message = str(e)

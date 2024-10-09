@@ -1,8 +1,8 @@
 import weaviate
 
-weaviate_client = weaviate.connect_to_local(host='weaviate')
+weaviate_client = weaviate.connect_to_local()
 try:
-    collection = weaviate_client.collections.get("ProteinCollection")
+    collection = weaviate_client.collections.get("ProteinCollectionSemantic")
     print('\n\nCollection: Collection: Collection: Collection: Collection: ', collection, '\n\n\n\n')
     print('ITEMS ITEMS ITEMS ITEMS ITEMS ITEMS ITEMS ITEMS ITEMS ITEMS ITEMS ')
     count = 0

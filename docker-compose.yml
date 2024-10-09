@@ -23,6 +23,12 @@ services:
       BACKUP_FILESYSTEM_PATH: '/backups/'
       # TODO remove clustername
       CLUSTER_HOSTNAME: 'bf28fd500657'
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "http://localhost:8080/v1/.well-known/ready" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
   ollama:
     build:
       context: .
@@ -53,6 +59,9 @@ services:
     restart: always
     ports:
       - 5000:5000
+    depends_on:
+      weaviate:
+        condition: service_healthy
 
 volumes:
   ollama:

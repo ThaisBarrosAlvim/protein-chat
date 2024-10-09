@@ -9,25 +9,211 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
     <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css"/>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
 
 <nav class="bg-black border-gray-200">
-    <a class="github-fork-ribbon" href="https://github.com/ThaisBarrosAlvim/protein-chat"
-       data-ribbon="Fork me on GitHub"
-       title="Fork me on GitHub">Fork me on GitHub</a>
     <div class="internal-nav max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
         <a href="#" class="flex items-center">
-            <img src="/static/images/protein-chat-logo.png" class="h-12 mr-3"
-                 alt="Protein Chat Logo"/>
+            <img src="/static/images/protein-chat-logo.png" class="h-12 mr-3" alt="Protein Chat Logo"/>
             <span class="self-center text-2xl font-semibold whitespace-nowrap">Protein Chat</span>
         </a>
+        <!-- Button to open/close the sidebar with settings icon -->
+        <button id="toggle-sidebar-btn" class="sidebar-toggle flex items-center">
+            <img src="/static/images/settings.svg" alt="Settings Icon" class="h-6 w-6 mr-2 svg-white">
+        </button>
     </div>
 </nav>
+
+<!-- Sidebar -->
+<div id="sidebar" class="fixed top-0 right-0 h-full bg-neutral-900 text-white shadow-md w-64 p-6 z-40 hidden-sidebar">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">Settings</h3>
+
+        <!-- Collapse button (aligned next to the title) -->
+        <button id="close-sidebar-btn" class="p-2 rounded-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white hover:text-gray-300" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="mb-6 mt-4">
+        <!-- Icon for Database -->
+        <div class="flex items-center mb-2">
+            <img src="/static/images/database.svg" alt="Database Icon" class="h-6 w-6 mr-2 svg-white">
+            <label for="db-selection" class="text-sm font-medium">Select Database</label>
+        </div>
+        <select id="db-selection"
+                class="block w-full bg-neutral-700 text-gray-900 border border-neutral-600 p-2 rounded">
+            <option value="size-divided">Divided by size</option>
+            <option value="semantically-divided2k">Semantically divided (min 2k)</option>
+            <option value="semantically-divided">Semantically divided</option>
+        </select>
+    </div>
+
+    <!-- Search Type Selection -->
+    <div class="mb-6">
+        <!-- Icon for Search -->
+        <div class="flex items-center mb-2">
+            <img src="/static/images/search.svg" alt="Search Icon" class="h-6 w-6 mr-2 svg-white">
+            <label for="search-type" class="text-sm font-medium">Select Retrieve Type</label>
+        </div>
+        <select id="search-type"
+                class="block w-full bg-neutral-700 text-gray-900 border border-neutral-600 p-2 rounded">
+            <option value="hybrid">Hybrid</option>
+            <option value="vector-similarity">By similarity</option>
+            <option value="keyword">By keyword</option>
+        </select>
+    </div>
+
+    <!-- Model Selection -->
+    <div class="mb-6">
+        <!-- Icon for Model Selection -->
+        <div class="flex items-center mb-2">
+            <img src="/static/images/cube.svg" alt="Model Icon" class="h-6 w-6 mr-2 svg-white">
+            <label for="model-selection" class="text-sm font-medium">Select Model</label>
+        </div>
+        <select id="model-selection"
+                class="block w-full bg-neutral-700 text-gray-900 border border-neutral-600 p-2 rounded">
+            <option value="llama3.1:8b">llama3.1 (8B)</option>
+        </select>
+    </div>
+
+    <!-- Context Docs Input -->
+    <div class="mb-6">
+        <div class="flex items-center mb-2">
+            <img src="/static/images/docs.svg" alt="Context Docs Icon" class="h-6 w-6 mr-2 svg-white">
+            <label for="context-docs" class="text-sm font-medium">Context docs</label>
+        </div>
+        <input type="number" id="context-docs" name="context-docs" value="20" min="1"
+               class="block w-full bg-neutral-700 text-gray-900 border border-neutral-600 p-2 rounded mt-2">
+    </div>
+
+    <!-- Chat History Switch Input -->
+    <div class="mb-6">
+        <div class="flex items-center mb-2">
+            <img src="/static/images/history.svg" alt="Chat History Icon" class="h-6 w-6 mr-2 svg-white">
+            <label for="chat-history" class="text-sm font-medium">Chat History</label>
+        </div>
+        <label class="switch" title="This feature will be available in a future update">
+            <input type="checkbox" id="chat-history" disabled>
+            <span class="slider round" id="chat-history-slider"></span>
+        </label>
+    </div>
+
+    <div class="text-center mt-6">
+        <button id="open-modal-btn" class="bg-white text-gray-900 px-2 py-2 rounded-lg hover:text-white bg-neutral-700-hover">
+            Understand Each Setting
+        </button>
+    </div>
+
+</div>
+
+<div id="config-modal" class="fixed inset-0 hidden bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white w-3/4 max-w-lg p-6 rounded-lg shadow-lg text-gray-900">
+        <h2 class="text-xl font-semibold mb-4">Configuration Overview</h2>
+
+        <!-- Titles, Icons, and Descriptions -->
+        <div class="mb-4">
+            <div class="mb-4">
+                <div class="flex items-center mb-2">
+                    <img src="/static/images/database.svg" alt="Database Icon" class="h-6 w-6 mr-2">
+                    <h3 class="text-lg font-medium">Database</h3>
+                </div>
+                <p class="text-sm text-gray-700 mb-4">
+                    The database is where the documents are retrieved during the "Retrieve" stage of RAG. You have two
+                    options:
+                <ul class="list-disc list-inside">
+                    <li><b>Divided by size:</b> Database is split based on document size (~4000 characters), using line breaks or periods
+                        as splitting points.
+                        <a href="https://api.python.langchain.com/en/latest/character/langchain_text_splitters.character.RecursiveCharacterTextSplitter.html" target="_blank" class="text-blue-500 hover:underline">More Info</a>
+                    </li>
+                    <li><b>Semantically divided (min 2k):</b> Database is split by grouping semantically similar sentences,
+                        resulting in coherent document chunks of minimum of 2000 characters.
+                        <a href="https://api.python.langchain.com/en/latest/text_splitter/langchain_experimental.text_splitter.SemanticChunker.html" target="_blank" class="text-blue-500 hover:underline">More Info</a>
+                    </li>
+                    <li><b>Semantically divided:</b> Database is split by grouping semantically similar sentences,
+                        resulting in coherent document chunks.
+                        <a href="https://api.python.langchain.com/en/latest/text_splitter/langchain_experimental.text_splitter.SemanticChunker.html" target="_blank" class="text-blue-500 hover:underline">More Info</a>
+                    </li>
+
+                </ul>
+                </p>
+            </div>
+
+            <div class="mb-4">
+                <div class="flex items-center mb-2">
+                    <img src="/static/images/search.svg" alt="Search Icon" class="h-6 w-6 mr-2">
+                    <h3 class="text-lg font-medium">Search Type</h3>
+                </div>
+                <p class="text-sm text-gray-700 mb-4">
+                    Choose how documents are retrieved from the database:
+                <ul class="list-disc list-inside">
+                    <li><b>Hybrid search (default):</b> Combines vector search and keyword search (BM25F) to provide
+                        balanced results.
+                        <a href="https://weaviate.io/developers/weaviate/search/hybrid" target="_blank" class="text-blue-500 hover:underline">More Info</a>
+                    </li>
+                    <li><b>Similarity (Vector search):</b> Uses vector representations to retrieve documents based on
+                        semantic meaning.
+                        <a href="https://weaviate.io/developers/weaviate/search/similarity" target="_blank" class="text-blue-500 hover:underline">More Info</a>
+                    </li>
+                    <li><b>Keyword search:</b> Matches specific words or phrases in the query, using the technique BM25F.
+                        <a href="https://weaviate.io/developers/weaviate/search/bm25" target="_blank" class="text-blue-500 hover:underline">More Info</a>
+                    </li>
+                </ul>
+                </p>
+            </div>
+
+            <div class="mb-4">
+                <div class="flex items-center mb-2">
+                    <img src="/static/images/cube.svg" alt="Model Icon" class="h-6 w-6 mr-2">
+                    <h3 class="text-lg font-medium">Model</h3>
+                </div>
+                <p class="text-sm text-gray-700 mb-4">
+                    Currently, only the llama3.1 (8B) model is available. In the future, we plan to train a custom model on
+                    our own dataset.
+                    <a href="https://ollama.com/library/llama3.1" target="_blank" class="text-blue-500 hover:underline">More Info</a>
+                </p>
+            </div>
+
+            <div class="mb-4">
+                <div class="flex items-center mb-2">
+                    <img src="/static/images/docs.svg" alt="Context Docs Icon" class="h-6 w-6 mr-2">
+                    <h3 class="text-lg font-medium">Context Documents</h3>
+                </div>
+                <p class="text-sm text-gray-700 mb-4">
+                    This controls the number of document chunks passed to the model as context along with the question. The higher the number, the more information the model has to generate an answer.
+                    However, there is a limit where adding more context does not help, as the llama3.1 model has a context length of 128K tokens.
+                    <a href="https://research.ibm.com/blog/retrieval-augmented-generation-RAG" target="_blank" class="text-blue-500 hover:underline">What is RAG?</a>
+                </p>
+            </div>
+
+            <div class="mb-4">
+                <div class="flex items-center mb-2">
+                    <img src="/static/images/history.svg" alt="Chat History Icon" class="h-6 w-6 mr-2">
+                    <h3 class="text-lg font-medium">Chat History</h3>
+                </div>
+                <p class="text-sm text-gray-700 mb-4">
+                    By default, chat history is disabled, meaning the model does not remember previous questions and
+                    answers. In the future, this feature will be enabled to support multi-turn conversations.
+                </p>
+            </div>
+        </div>
+
+        <!-- Close Button -->
+        <div class="text-right">
+            <button id="close-modal-btn" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+
+
 
 <div id="context-modal" tabindex="-1" class="hidden fixed z-50 w-full p-8 overflow-y-auto inset-0 h-full max-h-full"
      onclick="closeModal()">
