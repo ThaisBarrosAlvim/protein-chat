@@ -19,14 +19,11 @@ def load_databases():
     db_size_divided = WeaviateVectorStore(client=weaviate_client, index_name='ProteinCollection',
                                           embedding=embedding,
                                           text_key='body')
-    db_semantic_divided = WeaviateVectorStore(client=weaviate_client, index_name='ProteinCollectionSemantic',
-                                              embedding=embedding,
-                                              text_key='body')
 
-    db_semantic_divided2k = WeaviateVectorStore(client=weaviate_client, index_name='ProteinCollectionSemantic2k',
+    db_semantic_divided = WeaviateVectorStore(client=weaviate_client, index_name='ProteinCollectionSemantic2k',
                                                 embedding=embedding,
                                                 text_key='body')
-    return db_size_divided, db_semantic_divided, db_semantic_divided2k
+    return db_size_divided, db_semantic_divided
 
 
 def setup_retriever(database, qtd_docs, alpha=0.5):

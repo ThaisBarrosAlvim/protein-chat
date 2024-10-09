@@ -5,7 +5,7 @@ import chatbot  # Aqui você importa o arquivo que manipula o modelo local
 
 app = Flask(__name__)
 
-db_size_divided, db_semantic_divided, db_semantic_divided2k = chatbot.load_databases()
+db_size_divided, db_semantic_divided = chatbot.load_databases()
 
 
 @app.route("/")
@@ -24,10 +24,8 @@ def get_bot_response():
         db = config.get('db', 'size-divided')
         if db == 'size-divided':
             database = db_size_divided
-        elif db == 'semantic-divided':
+        else: # semantic-divided
             database = db_semantic_divided
-        else: # semantic-divided2k
-            database = db_semantic_divided2k
 
         # Search type config
         search_type = config.get('searchType', 'hybrid')
