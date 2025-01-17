@@ -85,23 +85,24 @@ Once the setup is complete, open your browser and go to `http://localhost:8000` 
 
 ## Future Improvements
 
-Here are several planned improvements for future versions of the project:
+1. **Prompt Engineering Enhancements**:
+    - Refine the prompts sent to the Ollama model to improve the consistency and accuracy of responses. This includes testing various phrasing techniques and adjusting the context length to ensure the system handles a wider range of questions effectively.
 
-1. **CPU Support for Docker-Compose**:
+2. **CPU Support for Docker-Compose**:
     - Create a `docker-compose-cpu.yml` file to run without GPU support, enabling the project to function on platforms other than Linux, including macOS and Windows. This will broaden the availability of the project and make it accessible to more users.
 
-2. **Accessible Context for Users**:
+3. **Accessible Context for Users**:
 
-   2.1 **Download PDFs from Context**:
+   3.1 **Download PDFs from Context**:
     - Allow users to download the PDFs that the system used as context to formulate the answers. This will ensure users have direct access to the sources for further exploration.
 
-   2.2 **Context Highlight in PDFs**:
+   3.2 **Context Highlight in PDFs**:
     - Implement a feature that marks the exact sections used in the answer directly within the PDF viewer on the web page. Users can visually see which part of the document contributed to the response.
 
-3. **Model Selection for Querying**:
+4. **Model Selection for Querying**:
     - Enable users to choose the language model that will be used to answer their queries. This allows more flexibility and customization depending on the needs or preferences of the user.
 
-4. **Selective Context PDFs**:
+5. **Selective Context PDFs**:
     - Give users the ability to choose which PDFs from the dataset should be used as context for answering questions. This way, users can narrow down the context or focus on specific documents they deem most relevant.
 
 ## Contributing
