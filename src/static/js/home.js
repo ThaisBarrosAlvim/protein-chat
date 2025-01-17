@@ -24,6 +24,11 @@ document.getElementById('userinput').addEventListener("keydown", function (event
 
 const formsubmitted = async () => {
     let userinput = document.getElementById('userinput').value;
+    let dbSelection = document.getElementById('db-selection').value;
+    let searchType = document.getElementById('search-type').value;
+    let modelSelection = document.getElementById('model-selection').value;
+    let contextDocs = document.getElementById('context-docs').value;
+    let chatHistory = document.getElementById('chat-history').value;
     let sendbtn = document.getElementById('sendbtn');
     let userinputarea = document.getElementById('userinput');
     let upperdiv = document.getElementById('upperid');
@@ -37,14 +42,24 @@ const formsubmitted = async () => {
     // Inicia o contador e altera o placeholder para "Wait..."
     document.getElementById('userinput').value = "";
     startTimer();
-
+    const startTime = new Date(); // Captura o tempo de início
     try {
         const response = await fetch('/message', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({msg: userinput}) // Envia o input do usuário no corpo da requisição
+            body: JSON.stringify(
+                {
+                    msg: userinput,
+                    config: {
+                        db: dbSelection,
+                        searchType: searchType,
+                        model: modelSelection,
+                        docsQtd: parseInt(contextDocs),
+                        history: chatHistory
+                    }
+                }) // Envia o input do usuário no corpo da requisição
         });
 
         // Tenta processar a resposta JSON, mesmo em caso de erro
@@ -57,6 +72,9 @@ const formsubmitted = async () => {
 
         stopTimer(); // Para o timer ao finalizar a requisição
 
+        const endTime = new Date(); // Captura o tempo de fim
+        const timeTaken = ((endTime - startTime) / 1000).toFixed(2); // Calcula o tempo em segundos
+
         // Restaura o placeholder após o sucesso
         document.getElementById('userinput').placeholder = "Your message...";
 
@@ -65,6 +83,7 @@ const formsubmitted = async () => {
             let message = json.result;
             let currentMessageId = messageId; // Atribui o número atual da resposta
             messageContexts.push(json.context); // Armazena o contexto da resposta
+            console.log(json.used_config) // TODO colocar configuração na mensagem
 
             upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message"><div class="appmessagediv"><div class="appmessage" id="temp-${currentMessageId}"></div></div></div>`;
             let temp = document.getElementById(`temp-${currentMessageId}`);
@@ -78,7 +97,7 @@ const formsubmitted = async () => {
                     setTimeout(displayNextLetter, 3);
                 } else {
                     // Adiciona um link para ver o contexto da resposta específica
-                    temp.innerHTML += `<br><a href="#" class="more-info" onclick="showModal(${currentMessageId})">See Context</a>`;
+                    temp.innerHTML += `<br><a href="#" class="more-info" onclick="showModal(${currentMessageId})">See Context</a> <span class="time-taken">(${timeTaken}s)</span>`;
                     temp.removeAttribute('id');
                     sendbtn.disabled = false;
                     userinputarea.disabled = false;
@@ -181,3 +200,46 @@ function startTimer() {
 function stopTimer() {
     clearInterval(timerInterval);
 }
+
+const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
+const sidebar = document.getElementById('sidebar');
+
+toggleSidebarBtn.addEventListener('click', () => {
+    if (sidebar.classList.contains('hidden-sidebar')) {
+        sidebar.classList.remove('hidden-sidebar');
+        sidebar.classList.add('show-sidebar');
+    } else {
+        sidebar.classList.remove('show-sidebar');
+        sidebar.classList.add('hidden-sidebar');
+    }
+});
+
+closeSidebarBtn.addEventListener('click', () => {
+    sidebar.classList.remove('show-sidebar');
+    sidebar.classList.add('hidden-sidebar');
+});
+
+const chatHistorySlider = document.getElementById('chat-history-slider');
+
+// Add event listener for click
+chatHistorySlider.addEventListener('click', function () {
+    alert('This feature will be available in a future update.');
+});
+
+// Get elements
+const openModalBtn = document.getElementById('open-modal-btn');
+const closeModalBtn = document.getElementById('close-modal-btn');
+const configModal = document.getElementById('config-modal');
+
+// Open modal on button click
+openModalBtn.addEventListener('click', function () {
+    configModal.classList.remove('hidden');
+    configModal.classList.add('flex');
+});
+
+// Close modal on button click
+closeModalBtn.addEventListener('click', function () {
+    configModal.classList.remove('flex');
+    configModal.classList.add('hidden');
+});

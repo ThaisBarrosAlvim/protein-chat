@@ -135,9 +135,126 @@ nav {
     background-color: #222;
 }
 
+.bg-neutral-700-hover:hover {
+    background-color: #4c4c4c;
+}
+
 .github-fork-ribbon:before {
     background-color: #333;
 }
 #context-modal{
     z-index: 99999;
+}
+
+
+
+.sidebar-toggle img {
+    margin-right: 8px;
+    transition: opacity 0.3s ease;
+}
+
+
+ .sidebar-toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.sidebar-toggle img {
+    margin-right: 8px;
+    transition: opacity 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect with white shadow */
+ .sidebar-toggle:hover img {
+    filter: invert(1) drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+}
+
+
+/* Sidebar transition */
+.hidden-sidebar {
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.show-sidebar {
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+}
+
+.svg-white {
+    filter: invert(1) brightness(2);
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px; /* 26px reduced by 40% */
+    width: 14px; /* 26px reduced by 40% */
+    left: 3px; /* Adjusted to fit the smaller size */
+    bottom: 3px; /* Adjusted to fit the smaller size */
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(16px); /* Adjusted to fit the smaller size */
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 20px; /* Adjusted to fit the smaller size */
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Modal Visibility */
+
+#config-modal.flex {
+    display: flex;
+}
+#config-modal.hidden {
+    display: none;
+}
+#config-modal .bg-white {
+    max-width: fit-content;
+    width: 90%; /* Makes the modal wider */
+    max-height: 80vh; /* Limit the modal height */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
