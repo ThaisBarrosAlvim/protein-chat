@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![codebeat badge](https://codebeat.co/badges/22def691-1b91-4fa4-86fa-8791769512ee)](https://codebeat.co/projects/github-com-thaisbarrosalvim-protein-chat-main)
 
-This project provides a chatbot that leverages AI models for answering questions related to protein structures with magnesium-binding sites. It processes a dataset of **7,613 articles** from the **[RCSB PDB](https://www.rcsb.org/)**, each detailing a protein structure with magnesium sites. These articles are processed using a **[RecursiveCharacterTextSplitter](https://api.python.langchain.com/en/latest/character/langchain_text_splitters.character.RecursiveCharacterTextSplitter.html)** from the Langchain library and stored in **[Qdrant](https://qdrant.tech)**, a vector database optimized for similarity searches.
+This project provides a chatbot that leverages AI models for answering questions related to protein structures with magnesium-binding sites. It processes a dataset of **7,613 articles** from the **[RCSB PDB](https://www.rcsb.org/)**, each detailing a protein structure with magnesium sites. These articles are processed using a **[RecursiveCharacterTextSplitter](https://api.python.langchain.com/en/latest/character/langchain_text_splitters.character.RecursiveCharacterTextSplitter.html)** from the Langchain library and stored in **[Weaviate](https://weaviate.io/)**, a vector database optimized for similarity searches.
 
 The system uses **[Ollama](https://ollama.com/)** (running the **[llama3.1 model](https://ollama.com/library/llama3.1)**) to perform natural language processing and generate human-like responses. The chatbot is built with **[Flask](https://github.com/pallets/flask)** for the web interface and uses **[Gunicorn](https://github.com/benoitc/gunicorn)** as the WSGI server, making it highly scalable and efficient.
 
@@ -24,14 +24,14 @@ The system uses **[Ollama](https://ollama.com/)** (running the **[llama3.1 model
 
 ## Overview
 
-This application uses **Langchain**, **Qdrant**, and **Ollama** models to answer questions based on pre-loaded protein data. It retrieves similar contexts from the Qdrant vector store and uses Ollama for generating human-like responses. The setup also includes a Flask web application for user interaction.
+This application uses **Langchain**, **Weaviate**, and **Ollama** models to answer questions based on pre-loaded protein data. It retrieves similar contexts from the Weaviate vector store and uses Ollama for generating human-like responses. The setup also includes a Flask web application for user interaction.
 
 ## Features
 
 - **Flask Web App**: Provides a simple user interface to interact with the chatbot.
-- **Retrieval-Based Q&A**: Uses Qdrant to retrieve the most relevant information and responds with concise, accurate answers.
+- **Retrieval-Based Q&A**: Uses Weaviate to retrieve the most relevant information and responds with concise, accurate answers.
 - **AI-Powered Responses**: Ollama model (Mistral) is used for generating natural language answers.
-- **Qdrant Dashboard**: View and manage the vector store via a dashboard.
+- **Weaviate Dashboard**: View and manage the vector store via a dashboard.
 
 ## Requirements
 - **Linux OS**: This project requires a Linux-based system to ensure compatibility with NVIDIA GPU support and other dependencies.
@@ -55,25 +55,28 @@ cd protein-chat
 
 ### 3. Build and Run the Docker Containers
 
-Use Docker Compose to set up the Qdrant, Ollama and Flask services:
+Use Docker Compose to set up the Weaviate, Ollama, and Flask services:
 
 ```bash
 docker compose up --build
 ```
 
-This command will build and start the Qdrant, Ollama and Flask services.
+This command will build and start the Weaviate, Ollama, and Flask services.
 
-### 4. Load the Protein Data Snapshot into Qdrant
+### 4. Load the Protein Data Snapshot into Weaviate
 
-Once Qdrant is running, load the pre-built snapshot data:
+Once Weaviate is running, follow these steps to load the dataset:
 
-1. Open the Qdrant Dashboard in your browser: http://localhost:6333/dashboard
-2. Upload the snapshot from [this link](https://drive.google.com/file/d/1hIyoOOxhoHKSah_76MdKLhAvTPhxfhQy/view?usp=sharing).
+1. Download the snapshot file [protein-articles4.zip](https://drive.google.com/file/d/1cNFL05dGc6pe14Irzj7_bp-cX3uUUHbP/view?usp=sharing).
+2. Run the following script to restore the dataset:
 
+   ```bash
+   sudo sh scripts/weaviate-restore-backup.sh protein-articles4.zip protein-chat-weaviate-1
+   ```
 
 ## Usage
 
-Once the setup is complete, open your browser and go to `http://localhost:8000` to interact with the chatbot. Type in a question related to protein data, and the system will retrieve relevant information from the Qdrant vector store and generate an answer using the Ollama model.
+Once the setup is complete, open your browser and go to `http://localhost:8000` to interact with the chatbot. Type in a question related to protein data, and the system will retrieve relevant information from the Weaviate vector store and generate an answer using the Ollama model.
 
 ### API Endpoints
 
@@ -108,3 +111,4 @@ Contributions are welcome! Feel free to submit a pull request or open an issue f
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
+
